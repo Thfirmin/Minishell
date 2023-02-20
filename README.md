@@ -21,7 +21,7 @@ Version: `6`
 
 <!-- Footer -->
 Check more detailed explanations of project in Wiki page.
-Go to [Minishell Wiki page][wiki]
+Go to [Minishell Wiki page][wiki].
 
 **Author**: _Thiago Firmino dos S. (thfirmin)_ & _Lucas Lima (llima)_
 **Institution**: _42 | Rio_

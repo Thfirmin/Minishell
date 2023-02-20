@@ -5,7 +5,7 @@
 
 This project is about creating a simple `shell`.
 Yes, your own little bash.
-You will learn a lot about processes and file descriptors.
+You will learn a lot about processes and file descriptors.   
 
 Version: `6`
 
@@ -28,9 +28,11 @@ Go back to [Homepage][home].
 
 _**Page under construction!**_
 
+---
+
 <!-- Foorter -->
 More explains of project check in the Wiki page.
-Go to [Minishell Wiki page][wiki]
+Go to [Minishell Wiki page][wiki].
 
 **Author**: _Thiago Firmino dos S. (thfirmin)_ & _Lucas Lima (llima)_
 **Institution**: _42 | Rio_

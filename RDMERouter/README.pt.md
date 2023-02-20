@@ -5,7 +5,7 @@
 
 Este projeto é sobre criar um `shell` simples.
 Sim, seu pequeno bash próprio.
-Você irá aprender bastante sobre processos e descritores de arquivos   
+Você irá aprender bastante sobre processos e descritores de arquivos.   
 
 Versão: `6`
 
@@ -27,6 +27,8 @@ Volte para a [Página Inicial][home].
 ## Uso
 
 _**Página sobre construção!**_
+
+---
 
 <!-- Rodapé -->
 Veja mais explicações do projeto na página wiki.   
