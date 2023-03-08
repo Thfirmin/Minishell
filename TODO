@@ -1,0 +1,19 @@
+# TODO
+
+[ ] Inicializar minishell
+	[ ] Inicializar dados
+	[ ] Inicializar ferramentas
+	[ ] Montar Sinal
+[ ] Captar Input
+	[ ] Controlar Terminal
+	[ ] Montar Prompt
+	[ ] Receber input
+[ ] Parse Input
+	[ ] Lexical Analyzer
+	[ ] Parser 
+[ ] Execute Input 
+[ ] Shell Subsystem Input 
+[ ] Binutils
+	[ ]  Construir echo
+
+vim: ft=Markdown
