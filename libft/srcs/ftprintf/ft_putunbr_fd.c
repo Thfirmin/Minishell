@@ -1,18 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_putunbr_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thfirmin <thfirmin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thfirmin <thiagofirmino2001@gmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/07 23:51:38 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/03/08 23:15:22 by thfirmin         ###   ########.fr       */
+/*   Created: 2022/11/07 12:45:58 by thfirmin          #+#    #+#             */
+/*   Updated: 2022/11/07 13:20:02 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include "libft.h"
-# include <readline/readline.h>
-# include <stdio.h>
-#endif
+#include "ft_printf.h"
+#include "libft.h"
+
+int	ft_putunbr_fd(unsigned int unbr, int fd)
+{
+	int	len;
+
+	len = 0;
+	if (unbr >= 10)
+		len += ft_putunbr_fd((unbr / 10), fd);
+	len += ft_putchar_fd(('0' + (unbr % 10)), fd);
+	return (len);
+}

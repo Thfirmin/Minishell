@@ -6,21 +6,26 @@
 #    By: thfirmin <thiagofirmino2001@gmail.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/11 21:07:07 by thfirmin          #+#    #+#              #
-#    Updated: 2023/03/08 00:02:27 by thfirmin         ###   ########.fr        #
+#    Updated: 2023/03/09 11:40:10 by thfirmin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # +>                                     NAME 
 
 NAME	= libft.a
+
+export MASTERLIB	= $(addprefix $(PTH_HERE),$(NAME))
 # <+-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-' #
 # +>                                     PATHS 
 
 PTH_SRCS	= srcs/
+
+PTH_HERE	= $(shell pwd)/
 # <+-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-' #
 # +>                                    SOURCES 
 
-SRCS	= ft
+SRCS	= ftprintf \
+		  ft
 
 LIBS	= $(addprefix $(PTH_SRCS),$(SRCS))
 # <+-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-' #
@@ -77,8 +82,8 @@ clean:
 
 fclean:
 	$(foreach libs,$(LIBS),$(MAKE) $(libs) fclean;)
-ifneq (,$(shell ls $(NAME) 2> /dev/null))
-	rm -rf $(NAME)
+ifneq (,$(shell ls $(MASTERLIB) 2> /dev/null))
+	rm -rf $(MASTERLIB)
 endif
 
 re:			fclean all

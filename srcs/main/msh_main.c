@@ -6,13 +6,16 @@
 /*   By: thfirmin <thfirmin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 23:53:26 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/03/07 23:58:26 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/03/08 23:15:33 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(void)
+int	main(int argc, char *envp[])
 {
+	(void) argc;
+	(void) envp;
+	printf ("%d\n", argc);
 	return (0);
 }
