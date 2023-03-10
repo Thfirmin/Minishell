@@ -6,7 +6,7 @@
 #    By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/06 14:23:56 by thfirmin          #+#    #+#              #
-#    Updated: 2023/03/08 21:52:29 by thfirmin         ###   ########.fr        #
+#    Updated: 2023/03/09 17:55:03 by thfirmin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -112,20 +112,20 @@ FULLER			= \e[7m
 all:	$(NAME)
 
 $(NAME):	$(OBJS)
-	@echo "[$(YELLOW)$(BOLD)INFO$(NULL)] $(UNDLINE)Compiling$(NULL) $(NAME) library"
+	@printf "[$(YELLOW)$(BOLD)INFO$(NULL)] $(UNDLINE)Compiling$(NULL) $(NAME) library\n"
 	ar -rcs $(NAME) $(OBJS)
 	ranlib $(NAME)
-	@echo "[$(GREEN)$(BOLD)INFO$(NULL)] $(BOLD)Compiled $(NAME) library$(NULL)"
-	@echo "[$(YELLOW)$(BOLD)INFO$(NULL)] $(UNDLINE)Exporting$(NULL) $(NAME) library"
+	@printf "[$(GREEN)$(BOLD)INFO$(NULL)] $(BOLD)Compiled $(NAME) library$(NULL)\n"
+	@printf "[$(YELLOW)$(BOLD)INFO$(NULL)] $(UNDLINE)Exporting$(NULL) $(NAME) library\n"
 	ar -rcs $(MASTERLIB) $(OBJS)
 	ranlib $(MASTERLIB)
-	@echo "[$(GREEN)$(BOLD)INFO$(NULL)] $(BOLD)Exported $(NAME) library$(NULL)"
+	@printf "[$(GREEN)$(BOLD)INFO$(NULL)] $(BOLD)Exported $(NAME) library$(NULL)\n"
 
 mclean:
 ifneq (,$(shell ls $(OBJS) 2> /dev/null))
-	@echo "[$(YELLOW)$(BOLD)INFO$(NULL)] $(UNDLINE)Deleting$(NULL) $(NAME) objects"
+	@printf "[$(YELLOW)$(BOLD)INFO$(NULL)] $(UNDLINE)Deleting$(NULL) $(NAME) objects\n"
 	rm -rf $(OBJS)
-	@echo "[$(BLUE)$(BOLD)INFO$(NULL)] $(BOLD)Deleted $(NAME) objects$(NULL)"
+	@printf "[$(BLUE)$(BOLD)INFO$(NULL)] $(BOLD)Deleted $(NAME) objects$(NULL)\n"
 endif
 
 re:			fclean all
@@ -137,32 +137,32 @@ bonus:	all $(BN_OBJS)
 $(BN_OBJS): $(BN_SRCS)
 	@if [ "$(BN_OBJSRC)" = "$(findstring $(BN_OBJSRC),$?)" ]; then \
 		if [ "$(VERBOSE)" = "1" ]; then \
-			echo "$(CC) $(CFLAGS) $(INCLUDE) -c $*.c -o $@"; \
+			printf "$(CC) $(CFLAGS) $(INCLUDE) -c $*.c -o $@\n"; \
 		fi; \
 		$(CC) $(CFLAGS) $(INCLUDE) -c $*.c -o $@; \
 	else \
 		touch $@; \
 	fi
 	@if [ "$@" = "$(lastword $(BN_OBJS))" ]; then \
-		echo "[$(YELLOW)$(BOLD)INFO$(NULL)] $(UNDLINE)Compiling$(NULL) $(NAME) bonus"; \
-		if [ "$(VERBOSE)" = "1" ]; then echo "ar -rcs $(NAME) $(BN_OBJS)"; fi; \
+		printf "[$(YELLOW)$(BOLD)INFO$(NULL)] $(UNDLINE)Compiling$(NULL) $(NAME) bonus\n"; \
+		if [ "$(VERBOSE)" = "1" ]; then printf "ar -rcs $(NAME) $(BN_OBJS)\n"; fi; \
 		ar -rcs $(NAME) $(BN_OBJS); \
-		if [ "$(VERBOSE)" = "1" ]; then echo "ranlib $(NAME)"; fi; \
+		if [ "$(VERBOSE)" = "1" ]; then printf "ranlib $(NAME)\n"; fi; \
 		ranlib $(NAME); \
-		echo "[$(GREEN)$(BOLD)INFO$(NULL)] $(BOLD)Compiled $(NAME) bonus$(NULL)"; \
-		echo "[$(YELLOW)$(BOLD)INFO$(NULL)] $(UNDLINE)Exporting$(NULL) $(NAME) bonus"; \
-		if [ "$(VERBOSE)" = "1" ]; then echo "ar -rcs $(MASTERLIB) $(BN_OBJS)"; fi; \
+		printf "[$(GREEN)$(BOLD)INFO$(NULL)] $(BOLD)Compiled $(NAME) bonus$(NULL)\n"; \
+		printf "[$(YELLOW)$(BOLD)INFO$(NULL)] $(UNDLINE)Exporting$(NULL) $(NAME) bonus\n"; \
+		if [ "$(VERBOSE)" = "1" ]; then printf "ar -rcs $(MASTERLIB) $(BN_OBJS)\n"; fi; \
 		ar -rcs $(MASTERLIB) $(BN_OBJS); \
-		if [ "$(VERBOSE)" = "1" ]; then echo "ranlib $(MASTERLIB)"; fi; \
+		if [ "$(VERBOSE)" = "1" ]; then printf "ranlib $(MASTERLIB)\n"; fi; \
 		ranlib $(MASTERLIB); \
-		echo "[$(GREEN)$(BOLD)INFO$(NULL)] $(BOLD)Exported $(NAME) bonus$(NULL)"; \
+		printf "[$(GREEN)$(BOLD)INFO$(NULL)] $(BOLD)Exported $(NAME) bonus$(NULL)\n"; \
 	fi
 
 bclean:
 ifneq (,$(shell ls $(BN_OBJS) 2> /dev/null))
-	@echo "[$(YELLOW)$(BOLD)INFO$(NULL)] $(UNDLINE)Deleting$(NULL) $(NAME) bonus objects"
+	@printf "[$(YELLOW)$(BOLD)INFO$(NULL)] $(UNDLINE)Deleting$(NULL) $(NAME) bonus objects\n"
 	$(RM) $(BN_OBJS)
-	@echo "[$(BLUE)$(BOLD)INFO$(NULL)] $(BOLD)Deleted $(NAME) bonus objects$(NULL)"
+	@printf "[$(BLUE)$(BOLD)INFO$(NULL)] $(BOLD)Deleted $(NAME) bonus objects$(NULL)\n"
 endif
 
 bre:	fclean bonus
@@ -173,9 +173,9 @@ clean: 		mclean bclean
 
 fclean:		clean
 ifneq (,$(shell ls $(NAME) 2> /dev/null))
-	@echo "[$(YELLOW)$(BOLD)INFO$(NULL)] $(UNDLINE)Deleting$(NULL) $(NAME) library$(NULL)"
+	@printf "[$(YELLOW)$(BOLD)INFO$(NULL)] $(UNDLINE)Deleting$(NULL) $(NAME) library$(NULL)\n"
 	rm -rf $(NAME)
-	@echo "[$(RED)$(BOLD)INFO$(NULL)] $(BOLD)Deleted $(NAME) library$(NULL)"
+	@printf "[$(RED)$(BOLD)INFO$(NULL)] $(BOLD)Deleted $(NAME) library$(NULL)\n"
 endif
 # <+-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-' #
 # vim: fdm=marker fmr=+>,<+ ts=4 sw=4 nofen noet:
