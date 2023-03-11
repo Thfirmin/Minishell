@@ -6,7 +6,7 @@
 #    By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/06 14:23:56 by thfirmin          #+#    #+#              #
-#    Updated: 2023/03/10 01:55:44 by thfirmin         ###   ########.fr        #
+#    Updated: 2023/03/10 02:20:22 by thfirmin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ LIBFT	= libft/libft.a
 SRC_PTH	= srcs/
 
 LST_PTH	= main/ \
-		  prompt/
+		  prompt/ \
+		  env/
 
 OBJ_PTH	= objs/
 
@@ -32,8 +33,12 @@ MAIN_SRC	= msh_main.c
 
 PROMPT_SRC	= msh_prompt.c
 
+ENV_SRC		= msh_env.c \
+			  msh_envutils.c
+
 SRCS	= $(addprefix $(SRC_PTH)main/,$(MAIN_SRC)) \
-		  $(addprefix $(SRC_PTH)prompt/,$(PROMPT_SRC))
+		  $(addprefix $(SRC_PTH)prompt/,$(PROMPT_SRC)) \
+		  $(addprefix $(SRC_PTH)env/,$(ENV_SRC))
 
 OBJS	= $(subst $(SRC_PTH),$(OBJ_PTH),$(subst .c,.o,$(SRCS)))
 
