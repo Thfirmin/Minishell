@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 02:17:42 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/03/10 02:35:29 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/03/11 01:13:53 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void	msh_envclear(t_env **env)
 	while (*env)
 	{
 		nxt = (**env).next;
+		free ((**env).key);
+		free ((**env).vlue);
 		free (*env);
 		*env = nxt;
 	}
