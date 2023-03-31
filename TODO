@@ -16,4 +16,14 @@
 [ ] Binutils
 	[ ]  Construir echo
 
+# TODO
+
+#1: Rodar Builtin
+
+2#: Execve
+	+ Primeiros membros da cadeia de comandos
+		> possuem pipes para passar para seus próximos
+	+ Ultimo membro da cadeia de comandos
+		> ultimo a quem vai receber o exit status e não possui pipe
+
 vim: ft=Markdown
