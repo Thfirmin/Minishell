@@ -6,31 +6,55 @@
 #    By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/06 14:23:56 by thfirmin          #+#    #+#              #
-#    Updated: 2023/03/31 12:57:36 by thfirmin         ###   ########.fr        #
+#    Updated: 2023/03/10 02:20:22 by thfirmin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # +>                                     NAMES
 
 NAME	= minishell
+
+LIBFT	= libft/libft.a
 # <+-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-' #
 # +>                                     PATHS
 
 SRC_PTH	= srcs/
+
+LST_PTH	= main/ \
+		  prompt/ \
+		  env/
+
 OBJ_PTH	= objs/
-LIB_PTH	= libs/
-INC_PTH	= includes/
+
 # <+-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-' #
 # +>                                    SOURCES
 
-LIB_SRC	= $(shell find $(LIB_PTH) -mindepth 1 -maxdepth 1 -type d)
-SRCS	= $(shell find srcs -type f | tr ' ' '\n' | grep \\.c)
+MAIN_SRC	= msh_main.c
+
+PROMPT_SRC	= msh_prompt.c
+
+ENV_SRC		= msh_env.c \
+			  msh_envutils.c
+
+SRCS	= $(addprefix $(SRC_PTH)main/,$(MAIN_SRC)) \
+		  $(addprefix $(SRC_PTH)prompt/,$(PROMPT_SRC)) \
+		  $(addprefix $(SRC_PTH)env/,$(ENV_SRC))
+
+OBJS	= $(subst $(SRC_PTH),$(OBJ_PTH),$(subst .c,.o,$(SRCS)))
+
+OBJTOSRC	= $(subst $(OBJ_PTH),$(SRC_PTH),$(subst .o,.c,$@))
 # <+-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-' #
 # +>                                    ALIASES 
 
-CC	= cc
-CFLAGS	= -Wall -Wextra -Werror
-INCLUDE	= -I$(INC_PTH)
+CC			= cc
+CFLAGS		= -Wall -Wextra -Werror $(DEBUG)
+INCLUDE		= -Iincludes -Ilibft
+LNKFLAGS	= -Llibft -lft -lreadline
+MAKEFLAGS	+= --no-print-directory
+ifneq ($(VERBOSE),1)
+MAKEFLAGS	+= --silent
+endif
+
 # <+-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-' #
 # +>                                     CODES 
 
@@ -56,31 +80,56 @@ FULLER			= \e[7m
 # <+-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-' #
 # +>                                     RULES
 
-all: $(OBJ_PTH) lib_update $(NAME)
-
-lib_update:
-	$(foreach libs, $(LIB_SRC), make -C $(libs);)
-
-$(OBJ_PTH):
-	mkdir -p $(subst $(SRC_PTH), $(OBJ_PTH), $(shell find $(SRC_PTH) -type d))
+.PHONY:		all update_libft mclean clean fclean re
 # <+-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-' #
 # +>                                   MANDATORY
 
-$(NAME):
-	echo "src = \"$(SRCS)\""
+all:		$(OBJ_PTH) $(NAME)
 
+$(LIBFT): update_libft
+
+update_libft:
+	make -C libft
+
+$(NAME):	$(LIBFT) $(OBJS)
+	@printf "[$(YELLOW)$(BOLD)INFO$(NULL)] $(UNDLINE)Compiling$(NULL) $(NAME) binary\n"
+	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LNKFLAGS) -o $(NAME)
+	@printf "[$(GREEN)$(BOLD)INFO$(NULL)] $(BOLD)Compiled $(NAME) binary$(NULL)\n"
+
+$(OBJ_PTH):
+	mkdir -p $(OBJ_PTH)
+	mkdir -p $(addprefix $(OBJ_PTH), $(LST_PTH))
+
+$(OBJS):	$(SRCS)
+	@if [ "$(OBJTOSRC)" = "$(findstring $(OBJTOSRC),$?)" ]; then \
+		if [ "$(VERBOSE)" = "1" ]; then \
+			printf "$(CC) $(CFLAGS) $(INCLUDE) -c $(OBJTOSRC) -o $@\n"; \
+		fi; \
+		$(CC) $(CFLAGS) $(INCLUDE) -c $(OBJTOSRC) -o $@; \
+	else \
+		touch $@; \
+	fi
+	
 mclean:
 ifneq (,$(shell ls $(OBJ_PTH) 2> /dev/null))
+	@printf "[$(YELLOW)$(BOLD)INFO$(NULL)] $(UNDLINE)Deleting$(NULL) $(NAME) objects\n"
 	rm -rf $(OBJ_PTH)
+	@printf "[$(BLUE)$(BOLD)INFO$(NULL)] $(BOLD)Deleted $(NAME) objects$(NULL)\n"
 endif
+
+re:			fclean all
 # <+-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-' #
 # +>                                     CLEAN 
 
-clean:	mclean
+clean: 		mclean
+	make -C libft clean
 
-fclean:	clean
+fclean:		clean
+	make -C libft fclean
 ifneq (,$(shell ls $(NAME) 2> /dev/null))
+	@printf "[$(YELLOW)$(BOLD)INFO$(NULL)] $(UNDLINE)Deleting$(NULL) $(NAME) binary$(NULL)\n"
 	rm -rf $(NAME)
+	@printf "[$(RED)$(BOLD)INFO$(NULL)] $(BOLD)Deleted $(NAME) binary$(NULL)\n"
 endif
 # <+-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-' #
 # vim: fdm=marker fmr=+>,<+ ts=4 sw=4 nofen noet:
