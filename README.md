@@ -1,5 +1,11 @@
 <!-- Header -->
-# Minishell
+<div align=center>
+
+[![](./.resrcs/img/minishell_dark.svg)](#)
+
+[![](./.resrcs/img/42pdh_badge.svg)](https://github.com/gawbsouza/42-pdh)
+
+</div>
 
 > As beautiful as a shell
 
@@ -36,7 +42,7 @@ Go to [Minishell Wiki page][wiki].
 <!-- Links -->
 [wiki]:<https://github.com/Thfirmin/Minishell/wiki>
 
-[en-usa]:<https://github.com/Thfirmin/Minishell/blob/main/.resrcs/rdmeRouter/README.en.md>
-[pt-br]:<https://github.com/Thfirmin/Minishell/blob/main/.resrcs/rdmeRouter/README.pt.md>
+[en-usa]:<./.resrcs/rdmeRouter/README.en.md>
+[pt-br]:<./.resrcs/rdmeRouter/README.pt.md>
 [thfirmin]:<https://github.com/Thfirmin>
 [llima]:<https://github.com/Cuelho00>
