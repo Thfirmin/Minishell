@@ -3,11 +3,9 @@
 
 [![](./.resrcs/img/minishell_dark.svg)](#)
 
-[![](./.resrcs/img/42pdh_badge.svg)](https://github.com/gawbsouza/42-pdh)
+> As beautiful as a shell
 
 </div>
-
-> As beautiful as a shell
 
 This project is about creating a simple shell.
 Yes, your own little bash.
@@ -37,7 +35,9 @@ Go to [Minishell Wiki page][wiki].
 
 ##### _Minishell 42|Rio (2023) - thfirmin & llima_
 
-<img height="100" width="200" src="https://github.com/Thfirmin/Thfirmin/blob/main/srcs/42_badges/42rio_logo.svg">
+[<img height="100" width="200" src="https://github.com/Thfirmin/Thfirmin/blob/main/srcs/42_badges/42rio_logo.svg">][42Rio]
+
+[![](./.resrcs/img/42pdh_badge.svg)](https://github.com/gawbsouza/42-pdh)
 
 <!-- Links -->
 [wiki]:<https://github.com/Thfirmin/Minishell/wiki>
@@ -46,3 +46,4 @@ Go to [Minishell Wiki page][wiki].
 [pt-br]:<./.resrcs/rdmeRouter/README.pt.md>
 [thfirmin]:<https://github.com/Thfirmin>
 [llima]:<https://github.com/Cuelho00>
+[42Rio]:<https://42.rio/>
