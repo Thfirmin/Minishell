@@ -23,13 +23,13 @@ Version: `6`
 Check more detailed explanations of project in Wiki page.
 Go to [Minishell Wiki page][wiki].
 
-**Author**: [_Thiago Firmino dos S. (thfirmin)_][thfirmin] & [_Lucas Lima (llima)_][llima]
+**Author**: [_Thiago Firmino dos S. (thfirmin)_][thfirmin] & [_Lucas Lima (llima)_][llima]   
 **Institution**: _42 | Rio_
 **Source**: _Markdown_
 
 > **_Keep Swimming!_**
 
-##### _Minishell 42|Rio (2023) - [thfirmin][thfirmin] & [llima][llima]_
+##### _Minishell 42|Rio (2023) - thfirmin & llima]_
 
 <img height="100" width="200" src="https://github.com/Thfirmin/Thfirmin/blob/main/srcs/42_badges/42rio_logo.svg">
 
