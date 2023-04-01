@@ -5,13 +5,13 @@
 
 > As beautiful as a shell
 
-</div>
-
 This project is about creating a simple shell.
 Yes, your own little bash.
 You will learn a lot about processes and file descriptors.
 
 Version: `6`
+
+</div>
 
 ---
 <!-- Body -->
@@ -28,8 +28,8 @@ Check more detailed explanations of project in Wiki page.
 Go to [Minishell Wiki page][wiki].
 
 **Author**: [_Thiago Firmino dos S. (thfirmin)_][thfirmin] & [_Lucas Lima (llima)_][llima]   
-**Institution**: _42 | Rio_
-**Source**: _Markdown_
+**Institution**: _42 | Rio_   
+**Source**: _Markdown & HTML_
 
 > **_Keep Swimming!_**
 
