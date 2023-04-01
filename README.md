@@ -29,7 +29,7 @@ Go to [Minishell Wiki page][wiki].
 
 > **_Keep Swimming!_**
 
-##### _Minishell 42|Rio (2023) - thfirmin & llima]_
+##### _Minishell 42|Rio (2023) - thfirmin & llima_
 
 <img height="100" width="200" src="https://github.com/Thfirmin/Thfirmin/blob/main/srcs/42_badges/42rio_logo.svg">
 
