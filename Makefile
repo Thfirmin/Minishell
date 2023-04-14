@@ -6,7 +6,7 @@
 #    By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/06 14:23:56 by thfirmin          #+#    #+#              #
-#    Updated: 2023/04/14 03:11:45 by thfirmin         ###   ########.fr        #
+#    Updated: 2023/04/14 03:29:52 by thfirmin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ OBJS	= $(subst $(SRC_PTH),$(OBJ_PTH),$(subst .c,.o,$(SRCS)))
 CC			= cc
 
 CFLAGS		= -Wall -Wextra -Werror $(DEBUG)
-LFLAGS		= $(foreach lib, $(LIB_TREE), -L$(LIB_PTH)/$(lib), -l$(subst lib,,$(lib)))
+LFLAGS		= $(foreach lib, $(LIB_TREE), -L$(LIB_PTH)/$(lib) -l$(subst lib,,$(lib)))
 IFLAGS		= $(foreach inc, $(INC_TREE), -I$(inc))
 MAKEFLAGS	+= --no-print-directory
 OTOC		= $(subst $(OBJ_PTH),$(SRC_PTH),$(subst .o,.c,$@))
@@ -101,8 +101,10 @@ endif
 # +>                                     CLEAN
 
 clean:	mclean
+	$(foreach libs, $(LIB_TREE), make -C $(LIB_PTH)/$(libs) clean;)
 
 fclean:	clean
+	$(foreach libs, $(LIB_TREE), make -C $(LIB_PTH)/$(libs) fclean;)
 ifneq (,$(shell ls $(NAME) 2> /dev/null))
 	rm -rf $(NAME)
 endif
