@@ -6,7 +6,7 @@
 #    By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/06 14:23:56 by thfirmin          #+#    #+#              #
-#    Updated: 2023/04/14 03:29:52 by thfirmin         ###   ########.fr        #
+#    Updated: 2023/04/14 03:36:43 by thfirmin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,13 +66,13 @@ FULLER		= \e[7m
 # <+-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-' #
 # +>                                     RULES
 
-all:	$(OBJ_TREE) lib_update $(NAME)
+iall:	$(OBJ_TREE) lib_update $(NAME)
 
 lib_update:
 	$(foreach libs, $(LIB_TREE), make -C $(LIB_PTH)/$(libs);)
 
 $(OBJ_TREE):
-	mkdir $@
+	mkdir -p $@
 
 re:	fclean all
 
