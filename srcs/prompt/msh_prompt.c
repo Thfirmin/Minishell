@@ -6,16 +6,11 @@
 /*   By: thfirmin <thfirmin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 21:21:37 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/14 21:57:26 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/15 15:51:40 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
- * split | strtok | list
- * < file cat >file2 | echo oi>> file2
- */
 
 static char	*msh_ps1mount(void);
 
