@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   msh_parser.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
+/*   By: thfirmin <thfirmin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/14 03:34:40 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/14 21:19:38 by thfirmin         ###   ########.fr       */
+/*   Created: 2023/04/14 22:03:27 by thfirmin          #+#    #+#             */
+/*   Updated: 2023/04/14 23:43:51 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char *argv[], char *envp[])
+t_cmd	*msh_parser(char *line)
 {
-	(void) argc;
-	(void) argv;
-	(void) envp;
-	test();
-	return (0);
+	t_cmd	*cmd;
+
+	cmd = 0;
+	(void) line;
+	return (cmd);
 }

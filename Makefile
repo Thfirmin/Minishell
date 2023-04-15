@@ -6,7 +6,7 @@
 #    By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/06 14:23:56 by thfirmin          #+#    #+#              #
-#    Updated: 2023/04/14 03:36:43 by thfirmin         ###   ########.fr        #
+#    Updated: 2023/04/14 21:43:17 by thfirmin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ OBJS	= $(subst $(SRC_PTH),$(OBJ_PTH),$(subst .c,.o,$(SRCS)))
 CC			= cc
 
 CFLAGS		= -Wall -Wextra -Werror $(DEBUG)
-LFLAGS		= $(foreach lib, $(LIB_TREE), -L$(LIB_PTH)/$(lib) -l$(subst lib,,$(lib)))
+LFLAGS		= $(foreach lib, $(LIB_TREE), -L$(LIB_PTH)/$(lib) -l$(subst lib,,$(lib))) -lreadline
 IFLAGS		= $(foreach inc, $(INC_TREE), -I$(inc))
 MAKEFLAGS	+= --no-print-directory
 OTOC		= $(subst $(OBJ_PTH),$(SRC_PTH),$(subst .o,.c,$@))
