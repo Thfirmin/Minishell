@@ -6,17 +6,15 @@
 /*   By: thfirmin <thfirmin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 21:44:38 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/15 00:47:48 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/15 15:51:57 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// Analisar o ridiculo
-// cmd  [arg]* [| cmd [arg]]*
-// [[ ]>[ ]file]* [[ ]<[ ]file]* [[ ]>>[ ]file]* [[ ]<< eof]*
+static int	msh_lexerror(char c);
 
-// "< file cat >file2 | echo oi>> file2"
+static short	msh_skipquote(char **str);
 
 static short	msh_redirsyntax(char *str, char opt);
 
@@ -40,22 +38,20 @@ static short	msh_pipesyntax(char *str)
 	arg = 0;
 	while (*str)
 	{
-		if (*str == '"' && str++)
-		{
-			while (*str && (*str != '"'))
-				str ++;
-			arg = '|';
-		}
+		if (!msh_skipquote(&str))
+			return (msh_lexerror(*str));
 		if (!arg && (!isspace(*str) && (*str != '|')))
 			arg = '|';
 		if (*str == '|')
 		{
 			if (!arg)
-				return (0);
+				return (msh_lexerror(*str));
 			arg -= *str;
 		}
 		str ++;
 	}
+	if (!arg)
+		return (msh_lexerror(*str));
 	return (arg);
 }
 
@@ -66,23 +62,49 @@ static short	msh_redirsyntax(char *str, char opt)
 	redir = 0;
 	while (*str)
 	{
-		if (*str == '"' && str ++)
-			while (*str && (*str != '"'))
-				str ++;
+		if (!msh_skipquote(&str))
+			return (msh_lexerror(*str));
 		if (*str == opt)
 		{
 			while (*(str + redir) == opt)
 				redir ++;
 			if (redir > 2)
-				return (0);
+				return (msh_lexerror(*str));
 			str += redir;
 			while (isspace(*str))
 				str ++;
 			if (!*str || *str == '|' || *str == '>' || *str == '<')
-				return (0);
+				return (msh_lexerror(*str));
 		}
 		redir = 0;
 		str ++;
 	}
 	return (1);
+}
+
+static short	msh_skipquote(char **str)
+{
+	char	opt;
+
+	if ((**str == '\'') || (**str == '\"'))
+		opt = **str;
+	else
+		return (1);
+	*str += 1;
+	while (**str && (**str != opt))
+		*str += 1;
+	if (!**str)
+		return (0);
+	return (1);
+}
+
+static int	msh_lexerror(char c)
+{
+	ft_putstr_fd("-bash: syntax error near unexpected token \'", 2);
+	if (!c)
+		ft_putstr_fd("newline", 2);
+	else
+		ft_putchar_fd(c, 2);
+	ft_putendl_fd("\'", 2);
+	return (0);
 }
