@@ -1,22 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_parser.c                                       :+:      :+:    :+:   */
+/*   msh_cmdnew.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thfirmin <thfirmin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/14 22:03:27 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/15 16:16:16 by thfirmin         ###   ########.fr       */
+/*   Created: 2023/04/15 16:10:27 by thfirmin          #+#    #+#             */
+/*   Updated: 2023/04/15 16:12:35 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_cmd	*msh_parser(char *line)
+t_cmd	*msh_cmdnew(char **arg, int fdin, int fdout)
 {
 	t_cmd	*cmd;
 
-	cmd = msh_cmdnew(0, -1, -1);
-	(void) line;
+	cmd = ft_calloc(sizeof(t_cmd), 1);
+	if (cmd)
+	{
+		cmd->arg = arg;
+		cmd->fdin = fdin;
+		cmd->fdout = fdout;
+	}
+	else
+		errno = ENOMEM;
 	return (cmd);
 }
