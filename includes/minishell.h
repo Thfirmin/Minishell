@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 02:05:18 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/14 23:45:20 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/15 16:13:04 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@
 // Includes
 # include "libft.h"
 # include <readline/readline.h>
-# include <ctype.h>
+# include <errno.h>
 
 // Enums
 
 // Structs & Unions
 typedef struct s_cmd
 {
-	char			**cmd;
+	char			**arg;
 	int				fdin;
 	int				fdout;
 	struct s_cmd	*next;
@@ -39,4 +39,6 @@ t_cmd	*msh_prompt(void);
 int		msh_lexer(char *line);
 t_cmd	*msh_parser(char *line);
 
+// Data
+t_cmd	*msh_cmdnew(char **arg, int fdin, int fdout);
 #endif
