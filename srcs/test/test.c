@@ -1,20 +1,26 @@
 #include "minishell.h"
 
 // Only for unit test
-static void	debug_cmd(t_cmd *cmd);
+//static void	debug_cmd(t_cmd *cmd);
+
+// >[>] arg (>, <, |, (null))
 
 void	test(void)
 {
-	t_cmd	*cmd;
-	char	*line = "| mundo";
+	//t_cmd	*cmd;
+	char	*line = "ola | echo ola > ";
 
-	cmd = msh_parser(line);
+	ft_printf ("line: %s\nret: %d\n", line, msh_lexer(line));
+	//if (!msh_lexer(line))
+	//	return ;
+	/*cmd = msh_parser(line);
 	ft_printf ("cmd: %p\n", cmd);
 	if (cmd)
 		debug_cmd(cmd);
-	free (cmd);
+	free (cmd);*/
 }
 
+/*
 static void	debug_cmd(t_cmd *cmd)
 {
 	int	node;
@@ -34,3 +40,4 @@ static void	debug_cmd(t_cmd *cmd)
 		cmd = cmd->next;
 	}
 }
+*/

@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 02:05:18 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/15 16:13:04 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/15 16:33:10 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,6 @@ t_cmd	*msh_parser(char *line);
 
 // Data
 t_cmd	*msh_cmdnew(char **arg, int fdin, int fdout);
+void	msh_cmdadd_back(t_cmd **cmd, t_cmd *arg);
+
 #endif

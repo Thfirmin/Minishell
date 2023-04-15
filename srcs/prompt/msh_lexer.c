@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 21:44:38 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/15 15:51:57 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/15 17:24:39 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static short	msh_pipesyntax(char *str)
 	{
 		if (!msh_skipquote(&str))
 			return (msh_lexerror(*str));
-		if (!arg && (!isspace(*str) && (*str != '|')))
+		if (!arg && (!ft_isspace(*str) && (*str != '|')))
 			arg = '|';
 		if (*str == '|')
 		{
@@ -71,7 +71,7 @@ static short	msh_redirsyntax(char *str, char opt)
 			if (redir > 2)
 				return (msh_lexerror(*str));
 			str += redir;
-			while (isspace(*str))
+			while (ft_isspace(*str))
 				str ++;
 			if (!*str || *str == '|' || *str == '>' || *str == '<')
 				return (msh_lexerror(*str));

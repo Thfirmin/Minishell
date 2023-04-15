@@ -6,13 +6,17 @@
 /*   By: thfirmin <thfirmin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 21:21:37 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/15 15:51:40 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/15 16:52:11 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static char	*msh_ps1mount(void);
+
+// Take User input
+// Verify if is valid
+// Desassamble input and assemble a command table with it
 
 t_cmd	*msh_prompt(void)
 {
