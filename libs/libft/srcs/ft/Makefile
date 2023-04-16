@@ -6,7 +6,7 @@
 #    By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/06 14:23:56 by thfirmin          #+#    #+#              #
-#    Updated: 2023/04/15 16:21:08 by thfirmin         ###   ########.fr        #
+#    Updated: 2023/04/16 00:58:53 by thfirmin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -134,7 +134,7 @@ bonus:	all $(BN_OBJS)
 
 $(BN_OBJS):	$(BN_SRCS)
 	@if [ "$(BN_OTOC)" = "$(findstring $(BN_OTOC),$?)" ]; then \
-		if [ "$(LOG)" = "0" ]; then \
+		if [ "$(LOG)" = "1" ]; then \
 			printf "${CC} ${CFLAGS} ${DFLAGS} ${OFLAGS} ${IFLAGS} -c $*.c ${LFLAGS} -o $@\n"; \
 		fi; \
 		$(CC) $(CFLAGS) $(DFLAGS) $(OFLAGS) $(IFLAGS) -c $*.c $(LFLAGS) -o $@; \
@@ -143,9 +143,9 @@ $(BN_OBJS):	$(BN_SRCS)
 	fi
 	@if [ "$@" = "$(lastword $(BN_OBJS))" ]; then \
 		printf "[${YELLOW}${BOLD}INFO${NULL}] ${UNDINE}Compiling${NULL} ${PROJ} bonus\n" $(REDIR); \
-		if [ "$(LOG)" = "0" ]; then printf "ar -rcs ${MASTERLIB} ${BN_OBJS}\n"; fi; \
+		if [ "$(LOG)" = "1" ]; then printf "ar -rcs ${MASTERLIB} ${BN_OBJS}\n"; fi; \
 		ar -rcs $(MASTERLIB) $(BN_OBJS); \
-		if [ "$(LOG)" = "0" ]; then printf "ranlib ${MASTERLIB}\n"; fi; \
+		if [ "$(LOG)" = "1" ]; then printf "ranlib ${MASTERLIB}\n"; fi; \
 		ranlib $(MASTERLIB); \
 		printf "[${GREEN}${BOLD}INFO${NULL}] ${BOLD}Compiled ${PROJ} bonus${NULL}\n" $(REDIR); \
 	fi

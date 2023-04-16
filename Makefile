@@ -6,7 +6,7 @@
 #    By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/06 14:23:56 by thfirmin          #+#    #+#              #
-#    Updated: 2023/04/14 21:43:17 by thfirmin         ###   ########.fr        #
+#    Updated: 2023/04/16 01:37:15 by thfirmin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,12 @@ CFLAGS		= -Wall -Wextra -Werror $(DEBUG)
 LFLAGS		= $(foreach lib, $(LIB_TREE), -L$(LIB_PTH)/$(lib) -l$(subst lib,,$(lib))) -lreadline
 IFLAGS		= $(foreach inc, $(INC_TREE), -I$(inc))
 MAKEFLAGS	+= --no-print-directory
+ifneq (1,$(LOG))
+	MAKEFLAGS += --silent
+endif
+ifneq (,$(LOG))
+	export REDIR = > /dev/null
+endif
 OTOC		= $(subst $(OBJ_PTH),$(SRC_PTH),$(subst .o,.c,$@))
 # <+-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-' #
 # +>                                     CODES
@@ -66,7 +72,7 @@ FULLER		= \e[7m
 # <+-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-' #
 # +>                                     RULES
 
-iall:	$(OBJ_TREE) lib_update $(NAME)
+all:	$(OBJ_TREE) lib_update $(NAME)
 
 lib_update:
 	$(foreach libs, $(LIB_TREE), make -C $(LIB_PTH)/$(libs);)
@@ -76,18 +82,31 @@ $(OBJ_TREE):
 
 re:	fclean all
 
+help:
+	printf "| MINISHELL COMPILE HELP |\n";
+	printf "| > To compile use 'make'\n";
+	printf "| > To compile with debug flags use {DFLAGS} var\n\tex: make re DFLAGS=\"-g -fsanitize=address\"\n";
+	printf "| > To compile with otimization flags use {OFLAGS} var\n\tex: make re DFLAGS=\"-g -fsanitize=address\" OFLAGS=-o3\n";
+	printf "| > To control verbose mode use {LOG} var\n\tex: make LOG=0\n\tLOG => { null = std | 0 = silent | 1 = full log }\n";
+	printf "| * If you'll use a flag repetitively, you can set this flag in Makefile in \"ALIASES\" field\n";
+	printf "| * (be careful with the flag name)\n";
+
 .PHONY: all lib_update mclean clean fclean re
 # <+-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-' #
 # +>                                   MANDATORY
 
 $(NAME):	$(OBJS)
 ifneq (,$(OBJS))
+	@printf "[${YELLOW}${BOLD}INFO${NULL}] ${UNDLINE}Compiling${NULL} ${NAME}\n" $(REDIR)
 	$(CC) $(CFLAGS) $(DFLAGS) $(OFLAGS) $(OBJS) $(LFLAGS) -o $(NAME)
+	@printf "[${GREEN}${BOLD}INFO${NULL}] ${BOLD}Compiled ${NAME}${NULL}\n" $(REDIR)
 endif
 
 $(OBJS):	$(SRCS)
 	@if [ "$(OTOC)" = "$(findstring $(OTOC),$?)" ]; then \
-		printf "$(CC) $(CFLAGS) $(IFLAGS) $(DFLAGS) $(OFLAGS) -c $(OTOC) -o $@\n"; \
+		if [ "$(LOG)" = "1" ]; then \
+			printf "$(CC) $(CFLAGS) $(IFLAGS) $(DFLAGS) $(OFLAGS) -c $(OTOC) -o $@\n"; \
+		fi; \
 		$(CC) $(CFLAGS) $(IFLAGS) $(DFLAGS) $(OFLAGS) -c $(OTOC) -o $@; \
 	else \
 		touch $@; \
@@ -95,7 +114,9 @@ $(OBJS):	$(SRCS)
 
 mclean:
 ifneq (,$(shell ls $(OBJ_PTH) 2> /dev/null))
+	@printf "[${YELLOW}${BOLD}INFO${NULL}] ${UNDLINE}Deleting${NULL} ${NAME} objects\n" $(REDIR)
 	rm -rf $(OBJ_PTH)
+	@printf "[${BLUE}${BOLD}INFO${NULL}] ${BOLD}Deleted ${NAME} objects${NULL}\n" $(REDIR)
 endif
 # <+-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-' #
 # +>                                     CLEAN
@@ -106,7 +127,9 @@ clean:	mclean
 fclean:	clean
 	$(foreach libs, $(LIB_TREE), make -C $(LIB_PTH)/$(libs) fclean;)
 ifneq (,$(shell ls $(NAME) 2> /dev/null))
+	@printf "[${YELLOW}${BOLD}INFO${NULL}] ${UNDLINE}Deleting${NULL} ${NAME} library\n" $(REDIR)
 	rm -rf $(NAME)
+	@printf "[${RED}${BOLD}INFO${NULL}] ${BOLD}Deleted ${NAME} library${NULL}\n" $(REDIR)
 endif
 # <+-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-' #
 # vim: fdm=marker fmr=+>,<+ ts=4 sw=4 nofen noet:

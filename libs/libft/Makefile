@@ -6,7 +6,7 @@
 #    By: thfirmin <thiagofirmino2001@gmail.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/11 21:07:07 by thfirmin          #+#    #+#              #
-#    Updated: 2023/04/04 13:44:54 by thfirmin         ###   ########.fr        #
+#    Updated: 2023/04/16 01:24:15 by thfirmin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,12 +31,11 @@ LIBS	= $(shell find $(PTH_SRC) -mindepth 1 -maxdepth 1 -type d)
 
 export IFLAGS	= -I$(PTH_HERE) -I$(PTH_HERE)$(PTH_INC)
 MAKEFLAGS		+= --no-print-directory
-ifneq (0,$(LOG))
-	MAKEFLAGS	+= --silent
+
+ifneq (1, $(LOG))
+	MAKEFLAGS += --silent
 endif
-ifeq (1,$(LOG))
-	export REDIR = > /dev/null
-else ifeq (0,$(LOG))
+ifneq (,$(LOG))
 	export REDIR = > /dev/null
 endif
 # <+-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-' #
