@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 10:24:02 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/16 22:52:40 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/18 08:34:16 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int		msh_skipquote(char *str)
 	len = 0;
 	if ((*(str + len) == '\'') || (*(str + len) == '\"'))
 	{
-		opt = *str++;
+		opt = *str;
+		len ++;
 		while (*(str + len) && (*(str + len) != opt))
 			len ++;
 	}
