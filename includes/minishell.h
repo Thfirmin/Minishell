@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 02:05:18 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/17 23:03:15 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/18 00:59:26 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,11 @@
 // Prompt
 
 // Data
+
+// Utils
+int	msh_skipquote(char *str);
+
+// Lexer
+int	msh_lexer(char *line);
 
 #endif
