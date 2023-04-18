@@ -22,7 +22,7 @@
 # include <sys/stat.h>
 # include <sys/ioctl.h>
 # include <dirent.h>
-# include <temrios.h>
+# include <termios.h>
 # include <curses.h>
 # include <term.h>
 # include <string.h>
