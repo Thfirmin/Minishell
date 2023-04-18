@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 02:05:18 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/18 08:20:56 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/18 11:05:40 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define MINISHELL_H
 
 // Defines
+# ifndef _GNU_SOURCE
+#  define _GNU_SOURCE
+# endif
 
 // Includes
 # include <readline/readline.h>
@@ -36,10 +39,16 @@
 // Enums
 
 // Structs & Unions
+typedef struct s_fd
+{
+	char	*fnm;
+	int		ffd;
+}			t_fd;
+
 typedef struct s_cmd
 {
-	int				fdin;
-	int				fdout;
+	t_fd			fdin;
+	t_fd			fdout;
 	char			**args;
 	struct s_cmd	*next;
 }					t_cmd;
