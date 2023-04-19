@@ -1,39 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_parser.c                                       :+:      :+:    :+:   */
+/*   msh_cmdnew.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/18 07:04:41 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/19 10:58:00 by thfirmin         ###   ########.fr       */
+/*   Created: 2023/04/19 10:38:37 by thfirmin          #+#    #+#             */
+/*   Updated: 2023/04/19 14:58:27 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_cmd	*msh_parsererror(char *head);
-
-t_cmd	*msh_parser(char *line)
+t_cmd	*msh_cmdnew(t_fd *in, t_fd *out, char **args)
 {
-	//char	**args;
+	t_cmd	*arg;
 
-	// Split by pipe
-	/*
-	args = msh_pipe_split(line);
-	if (!args)
-		return (msh_parsererror("-bash:parser"));
-	*/
-	// mount arg
-	if (!line)
-		msh_parsererror(0);
-
-	// add to cmd tabble
-	return (msh_mountarg(line));
-}
-
-static t_cmd	*msh_parsererror(char *head)
-{
-	perror(head);
-	return (0);
+	arg = ft_calloc(sizeof(t_cmd), 1);
+	if (arg)
+	{
+		arg->fdin.ffd = in->ffd;
+		arg->fdin.fnm = in->fnm;
+		arg->fdout.ffd = out->ffd;
+		arg->fdout.fnm = out->fnm;
+		arg->args = args;
+		arg->next = 0;
+	}
+	else
+		errno = ENOMEM;
+	return (arg);
 }
