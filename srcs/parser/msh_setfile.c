@@ -1,40 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_parser.c                                       :+:      :+:    :+:   */
+/*   msh_setfile.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/18 07:04:41 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/18 22:24:12 by thfirmin         ###   ########.fr       */
+/*   Created: 2023/04/18 18:29:13 by thfirmin          #+#    #+#             */
+/*   Updated: 2023/04/18 22:32:50 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_cmd	*msh_parsererror(char *head);
-
-t_cmd	*msh_parser(char *line)
+char	*msh_setfile(char *str)
 {
-	//char	**args;
-	t_cmd	*node;
+	char	*file;
+	int		i;
+	char	opt;
 
-	// Split by pipe
-	/*
-	args = msh_pipe_split(line);
-	if (!args)
-		return (msh_parsererror("-bash:parser"));
-	*/
-	// mount arg
-	if (!line)
-		msh_parsererror(0);
-	node = msh_mountarg(line);
-	// add to cmd tabble
-	return (0);
-}
-
-static t_cmd	*msh_parsererror(char *head)
-{
-	perror(head);
-	return (0);
+	i = 0;
+	if ((*(str + i) == '\'') || (*(str + i) == '\"'))
+	{
+		opt = *(str + i++);
+		while (*(str + i) != opt)
+			i ++;
+	}
+	else
+		while (*(str + i) && !ft_strchr("<>| \t\n\v\r\f", *(str + i)))
+			i ++;
+	file = ft_substr(str, 0, i);
+	ft_memset(str, ' ', i);
+	return (file);
 }
