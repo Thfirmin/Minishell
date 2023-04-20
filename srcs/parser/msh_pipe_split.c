@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 07:14:47 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/18 08:22:23 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/20 10:38:28 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ char	**msh_pipe_split(char *line)
 	pipes = msh_iterpipe(line);
 	str = ft_calloc(sizeof(char *), pipes + 1);
 	if (!str)
-		return (msh_spliterr(0));
+	{
+		errno = ENOMEM;
+		return (0);
+	}
 	i = -1;
 	while (++i < pipes)
 	{

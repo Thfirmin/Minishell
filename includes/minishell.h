@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 02:05:18 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/19 10:48:21 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/20 11:17:28 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,15 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }					t_cmd;
 
-// Test
+// Main
+int	msh_perror(char *flag, char *msg, ...);
 
 // Prompt
 
 // Data
 t_cmd	*msh_cmdnew(t_fd *in, t_fd *out, char **args);
+void	msh_cmdadd_back(t_cmd **cmd, t_cmd *arg);
+void	msh_cmdclean(t_cmd **cmd);
 
 // Utils
 int	msh_skipquote(char *str);
@@ -73,5 +76,6 @@ char	**msh_pipe_split(char *line);
 char	*msh_setfile(char *str);
 int		msh_heredoc(char *eof);
 void	msh_setredir(char *str, t_fd *in, t_fd *out);
+void	msh_clean_redir(char *str);
 
 #endif

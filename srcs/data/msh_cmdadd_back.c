@@ -1,41 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_parser.c                                       :+:      :+:    :+:   */
+/*   msh_cmdadd_back.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/18 07:04:41 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/20 10:58:15 by thfirmin         ###   ########.fr       */
+/*   Created: 2023/04/20 10:08:01 by thfirmin          #+#    #+#             */
+/*   Updated: 2023/04/20 10:11:29 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_cmd	*msh_parser(char *line)
+void	msh_cmdadd_back(t_cmd **cmd, t_cmd *arg)
 {
-	char	**args;
-	int		aux;
-	t_cmd	*cmd;
-	t_cmd	*node;
+	t_cmd	*lst;
 
-	// Split by pipe
-	args = msh_pipe_split(line);
-	if (!args)
-		return (0);
-	cmd = 0;
-	// mount arg
-	aux = -1;
-	while (*(args + ++aux))
+	if (!*cmd)
+		*cmd = arg;
+	else
 	{
-		node = msh_mountarg(*(args + aux));
-		if (!node)
-		{
-			msh_cmdclean(&cmd);
-			return (0);
-		}
-		msh_cmdadd_back(&cmd, node);
+		lst = *cmd;
+		while (lst->next)
+			lst = lst->next;
+		lst->next = arg;
 	}
-	// add to cmd tabble
-	return (cmd);
 }

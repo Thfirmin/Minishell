@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 18:29:13 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/18 22:32:50 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/20 09:10:04 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,5 @@ char	*msh_setfile(char *str)
 		while (*(str + i) && !ft_strchr("<>| \t\n\v\r\f", *(str + i)))
 			i ++;
 	file = ft_substr(str, 0, i);
-	ft_memset(str, ' ', i);
 	return (file);
 }

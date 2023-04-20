@@ -1,41 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_parser.c                                       :+:      :+:    :+:   */
+/*   msh_clean_redir.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/18 07:04:41 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/20 10:58:15 by thfirmin         ###   ########.fr       */
+/*   Created: 2023/04/20 09:12:45 by thfirmin          #+#    #+#             */
+/*   Updated: 2023/04/20 09:52:01 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_cmd	*msh_parser(char *line)
+void	msh_clean_redir(char *str)
 {
-	char	**args;
-	int		aux;
-	t_cmd	*cmd;
-	t_cmd	*node;
+	int	i;
 
-	// Split by pipe
-	args = msh_pipe_split(line);
-	if (!args)
-		return (0);
-	cmd = 0;
-	// mount arg
-	aux = -1;
-	while (*(args + ++aux))
+	while (*str)
 	{
-		node = msh_mountarg(*(args + aux));
-		if (!node)
+		i = 0;
+		str += msh_skipquote(str);
+		if ((*str == '<') || (*str == '>'))
 		{
-			msh_cmdclean(&cmd);
-			return (0);
+			while ((*(str + i) == '<') || (*(str + i) == '>'))
+				i ++;
+			while (ft_isspace(*(str + i)))
+				i ++;
+			while (*(str + i) && !ft_strchr("<>| \t\n\v\r\f", *(str + i)))
+				i ++;
+			ft_memset(str, ' ', i);
+			str += i;
 		}
-		msh_cmdadd_back(&cmd, node);
+		else if (*str >= 9 && *str <= 13)
+			*str++ = ' ';
+		else if (*str)
+			str ++;
 	}
-	// add to cmd tabble
-	return (cmd);
 }

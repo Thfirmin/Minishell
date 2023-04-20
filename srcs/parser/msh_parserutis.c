@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:47:33 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/19 14:54:10 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/20 11:17:20 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ void	msh_setredir(char *str, t_fd *in, t_fd *out)
 	char	opt;
 	int		i;
 
-	if (!str)
-		return ;
 	while (*str)
 	{
 		i = 0;
@@ -68,13 +66,13 @@ void	msh_redin(char *str, t_fd *in, t_fd *out, int oper)
 	else if (oper == 2)
 		fd = msh_heredoc(file);
 	if (in->ffd != -1)
-		in->ffd = fd;
-	else
-		close (fd);
-	if (in->ffd != -1)
 		in->fnm = file;
 	else
 		free (file);
+	if (in->ffd != -1)
+		in->ffd = fd;
+	else
+		close (fd);
 }
 
 // create setter of fd struct: clean struct, copy file, open'n'fill input
