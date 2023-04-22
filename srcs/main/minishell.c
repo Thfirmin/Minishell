@@ -6,37 +6,33 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 03:34:40 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/20 10:58:00 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/21 23:43:06 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	msh_print(t_cmd *cmd);
-
-char	*line = "<<sqn cat | grep \"> ola\" | wc -l | echo $1 mundo >> mundo > mundao";
-
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_cmd	*node;
 	char	*str;
-	(void) argc;
-	(void) argv;
-	(void) envp;
 
-	str = malloc (ft_strlen(line) + 1);
-	ft_strlcpy(str, line, ft_strlen(line) + 1);
-	ft_printf ("line = %s\n");
+	if (argc != 2)
+		return (2);
+	(void) envp;
+	str = malloc (ft_strlen(argv[1]) + 1);
+	ft_strlcpy(str, argv[1], ft_strlen(argv[1]) + 1);
+	ft_printf ("line = %s\n", str);
 	node = msh_parser(str);
 	if (!node)
-		msh_perror("parser", 0);
+		msh_perror(0, "parser", 0);
 	msh_print(node);
 	msh_cmdclean(&node);
 	free (str);
 	return (0);
 }
 
-static void	msh_print(t_cmd *cmd)
+void	msh_print(t_cmd *cmd)
 {
 	int	i;
 	int	aux;
@@ -59,5 +55,4 @@ static void	msh_print(t_cmd *cmd)
 		cmd = cmd->next;
 		i ++;
 	}
-
 }

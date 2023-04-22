@@ -6,18 +6,18 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:47:33 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/20 11:17:20 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/21 21:47:18 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	msh_redout(char *str, t_fd *in, t_fd *out, int oper);
+static int	msh_redout(char *str, t_fd *in, t_fd *out, int oper);
 
-void	msh_redin(char *str, t_fd *in, t_fd *out, int oper);
+static int	msh_redin(char *str, t_fd *in, t_fd *out, int oper);
 
 // Found redirects, identify the method and delegate to correctly function
-void	msh_setredir(char *str, t_fd *in, t_fd *out)
+int	msh_setredir(char *str, t_fd *in, t_fd *out)
 {
 	char	opt;
 	int		i;
@@ -33,63 +33,59 @@ void	msh_setredir(char *str, t_fd *in, t_fd *out)
 			while ((*str + i) && (*(str + i) == opt))
 				i ++;
 			str += i;
-			while (*str && ft_isspace(*str))
-				str++;
 			if (opt == '<')
-				msh_redin(str, in, out, i);
-			else if (opt == '>')
-				msh_redout(str, in, out, i);
+				if (msh_redin(str, in, out, i) < 0)
+					return (-1);
+			if (opt == '>')
+				if (msh_redout(str, in, out, i) < 0)
+					return (-1);
 		}
 		else if (*str)
 			str ++;
 	}
+	return (0);
 }
 
 // create setter of fd struct: clean struct, copy file, open'n'fill input
-void	msh_redin(char *str, t_fd *in, t_fd *out, int oper)
+static int	msh_redin(char *str, t_fd *in, t_fd *out, int oper)
 {
-	int		fd;
-	char	*file;
+	t_fd	aux;
 
-	if ((oper != 2) && ((in->ffd == -1) || (out->ffd == -1)))
-		return ;
-	if ((in->ffd != -1) && (in->ffd != -2))
+	if ((in->ffd == -1) || (out->ffd == -1))
 	{
-		close (in->ffd);
-		in->ffd = -2;
-		free (in->fnm);
-		in->fnm = 0;
+		if (oper == 2)
+		{
+			aux.fnm = msh_setfile(str);
+			if (!aux.fnm)
+				return (-1);
+			aux.ffd = msh_heredoc(aux.fnm);
+			msh_fdclean(&aux);
+		}
+		return (0);
 	}
-	file = msh_setfile(str);
+	msh_fdclean(in);
+	in->fnm = msh_setfile(str);
+	if (!in->fnm)
+		return (-1);
 	if (oper == 1)
-		fd = open(file, O_RDONLY, 00644);
+		in->ffd = open(in->fnm, O_RDONLY, 00644);
 	else if (oper == 2)
-		fd = msh_heredoc(file);
-	if (in->ffd != -1)
-		in->fnm = file;
-	else
-		free (file);
-	if (in->ffd != -1)
-		in->ffd = fd;
-	else
-		close (fd);
+		in->ffd = msh_heredoc(in->fnm);
+	return (0);
 }
 
 // create setter of fd struct: clean struct, copy file, open'n'fill input
-void	msh_redout(char *str, t_fd *in, t_fd *out, int oper)
+static int	msh_redout(char *str, t_fd *in, t_fd *out, int oper)
 {
 	if ((in->ffd == -1) || (out->ffd == -1))
-		return ;
-	if ((out->ffd != -1) && (out->ffd != -2))
-	{
-		close (out->ffd);
-		out->ffd = -2;
-		free (out->fnm);
-		out->fnm = 0;
-	}
+		return (0);
+	msh_fdclean(out);
 	out->fnm = msh_setfile(str);
+	if (!out->fnm)
+		return (-1);
 	if (oper == 1)
 		out->ffd = open(out->fnm, O_WRONLY | O_CREAT | O_TRUNC, 00644);
 	else if (oper == 2)
 		out->ffd = open(out->fnm, O_WRONLY | O_CREAT | O_APPEND, 00644);
+	return (0);
 }

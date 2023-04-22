@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 02:05:18 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/20 11:17:28 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/21 23:36:35 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ typedef struct s_cmd
 }					t_cmd;
 
 // Main
-int	msh_perror(char *flag, char *msg, ...);
+int		msh_perror(int ret, char *flag, char *msg, ...);
+void	msh_print(t_cmd *cmd);
 
 // Prompt
 
@@ -62,20 +63,22 @@ int	msh_perror(char *flag, char *msg, ...);
 t_cmd	*msh_cmdnew(t_fd *in, t_fd *out, char **args);
 void	msh_cmdadd_back(t_cmd **cmd, t_cmd *arg);
 void	msh_cmdclean(t_cmd **cmd);
+void	msh_fdclean(t_fd *fd);
+void	msh_splitclean(char ***split);
 
 // Utils
-int	msh_skipquote(char *str);
+int		msh_skipquote(char *str);
 
 // Lexer
-int	msh_lexer(char *line);
+int		msh_lexer(char *line);
 
 // Parser
 t_cmd	*msh_parser(char *line);
 t_cmd	*msh_mountarg(char *line);
-char	**msh_pipe_split(char *line);
 char	*msh_setfile(char *str);
 int		msh_heredoc(char *eof);
-void	msh_setredir(char *str, t_fd *in, t_fd *out);
+int		msh_setredir(char *str, t_fd *in, t_fd *out);
 void	msh_clean_redir(char *str);
+char	**msh_prompt_split(char *line, char set);
 
 #endif

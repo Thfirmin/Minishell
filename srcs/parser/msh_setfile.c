@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 18:29:13 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/20 09:10:04 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/21 17:37:14 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	*msh_setfile(char *str)
 	char	opt;
 
 	i = 0;
+	while (ft_isspace(*str))
+		str ++;
 	if ((*(str + i) == '\'') || (*(str + i) == '\"'))
 	{
 		opt = *(str + i++);
@@ -29,5 +31,7 @@ char	*msh_setfile(char *str)
 		while (*(str + i) && !ft_strchr("<>| \t\n\v\r\f", *(str + i)))
 			i ++;
 	file = ft_substr(str, 0, i);
+	if (!file)
+		errno = ENOMEM;
 	return (file);
 }

@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 10:42:48 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/20 10:52:18 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/21 23:39:06 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,47 @@
 void	msh_cmdclean(t_cmd **cmd)
 {
 	t_cmd	*nxt;
-	int		aux;
 
 	if (!cmd)
 		return ;
 	while (*cmd)
 	{
-		aux = -1;
-		nxt = (**cmd).next;
-		free ((**cmd).fdin.fnm);
-		free ((**cmd).fdout.fnm);
-		if (((**cmd).fdin.ffd != -2) && ((**cmd).fdin.ffd != -2))
-			close ((**cmd).fdin.ffd);
-		if (((**cmd).fdout.ffd != -2) && ((**cmd).fdout.ffd != -2))
-			close ((**cmd).fdout.ffd);
-		if ((**cmd).args)
-		{
-			while (*((**cmd).args + ++aux))
-				free (*((**cmd).args + aux));
-			free ((**cmd).args + aux);
-			(**cmd).args = 0;
-		}
-		free (*cmd);
-		*cmd = nxt;
+		nxt = *cmd;
+		*cmd = (**cmd).next;
+		msh_fdclean(&nxt->fdin);
+		msh_fdclean(&nxt->fdout);
+		msh_splitclean(&nxt->args);
+		free (nxt);
+	}
+}
+
+void	msh_splitclean(char ***split)
+{
+	int		i;
+	char	**aux;
+
+	i = -1;
+	if (!*split)
+		return ;
+	aux = *split;
+	while (*(aux + ++i))
+		free (*(aux + i));
+	free (aux);
+	*split = 0;
+}
+
+void	msh_fdclean(t_fd *fd)
+{
+	if (!fd)
+		return ;
+	if ((fd->ffd != -1) && (fd->ffd != -2))
+	{
+		close(fd->ffd);
+		fd->ffd = -2;
+	}
+	if (fd->fnm)
+	{
+		free (fd->fnm);
+		fd->fnm = 0;
 	}
 }
