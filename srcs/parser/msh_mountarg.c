@@ -6,11 +6,13 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 08:51:41 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/21 23:40:35 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/23 13:05:17 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void		msh_clean_redir(char *str);
 
 static t_cmd	*msh_mountarg_error(t_fd *in, t_fd *out, char **split);
 
@@ -49,4 +51,34 @@ static t_cmd	*msh_mountarg_error(t_fd *in, t_fd *out, char **split)
 	msh_fdclean(in);
 	msh_fdclean(out);
 	return (0);
+}
+
+// Clean all redirect tokens from prompt
+static void	msh_clean_redir(char *str)
+{
+	int		i;
+
+	while (*str)
+	{
+		i = 0;
+		str += msh_skipquote(str);
+		if ((*str == '<') || (*str == '>'))
+		{
+			while ((*(str + i) == '<') || (*(str + i) == '>'))
+				i ++;
+			while (ft_isspace(*(str + i)))
+				i ++;
+			if ((*(str + i) == '\'') || (*(str + i) == '\"'))
+				i += (msh_skipquote((str + i)) + 1);
+			else
+				while (*(str + i) && !ft_strchr("<>| \t\n\v\r\f", *(str + i)))
+					i ++;
+			ft_memset(str, ' ', i);
+			str += i;
+		}
+		else if (*str >= 9 && *str <= 13)
+			*str++ = ' ';
+		else if (*str)
+			str ++;
+	}
 }

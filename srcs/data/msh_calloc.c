@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_cmdadd_back.c                                  :+:      :+:    :+:   */
+/*   msh_calloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/20 10:08:01 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/20 10:11:29 by thfirmin         ###   ########.fr       */
+/*   Created: 2023/04/23 11:19:17 by thfirmin          #+#    #+#             */
+/*   Updated: 2023/04/23 11:22:01 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	msh_cmdadd_back(t_cmd **cmd, t_cmd *arg)
+void	*msh_calloc(size_t count, size_t size, char *context)
 {
-	t_cmd	*lst;
+	void	*ptr;
 
-	if (!*cmd)
-		*cmd = arg;
-	else
+	ptr = ft_calloc(count, size);
+	if (!ptr)
 	{
-		lst = *cmd;
-		while (lst->next)
-			lst = lst->next;
-		lst->next = arg;
+		errno = ENOMEM;
+		msh_perror(0, context, 0);
 	}
+	return (ptr);
 }

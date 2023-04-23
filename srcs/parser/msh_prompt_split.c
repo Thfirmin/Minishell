@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 21:55:03 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/21 23:31:17 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/23 11:38:20 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ char	**msh_prompt_split(char *line, char set)
 	if (!line)
 		return (0);
 	words = msh_wordcount(line, set);
-	split = ft_calloc(sizeof(char *), words + 1);
+	split = msh_calloc(words + 1, sizeof(char *), "parser");
 	if (!split)
-		return (msh_spliterr(split));
+		return (0);
 	i = -1;
 	while (++i < words)
 	{
@@ -107,5 +107,6 @@ static char	**msh_spliterr(char **split)
 {
 	msh_splitclean(&split);
 	errno = ENOMEM;
+	msh_perror(0, "parser", 0);
 	return (0);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_cmdnew.c                                       :+:      :+:    :+:   */
+/*   msh_cmdhandle.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/19 10:38:37 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/19 14:58:27 by thfirmin         ###   ########.fr       */
+/*   Created: 2023/04/23 12:48:04 by thfirmin          #+#    #+#             */
+/*   Updated: 2023/04/23 12:48:40 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,24 @@ t_cmd	*msh_cmdnew(t_fd *in, t_fd *out, char **args)
 		arg->next = 0;
 	}
 	else
+	{
 		errno = ENOMEM;
+		msh_perror(0, "cmdnew", 0);
+	}
 	return (arg);
+}
+
+void	msh_cmdadd_back(t_cmd **cmd, t_cmd *arg)
+{
+	t_cmd	*lst;
+
+	if (!*cmd)
+		*cmd = arg;
+	else
+	{
+		lst = *cmd;
+		while (lst->next)
+			lst = lst->next;
+		lst->next = arg;
+	}
 }

@@ -1,16 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_parserutis.c                                   :+:      :+:    :+:   */
+/*   msh_setredir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:47:33 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/21 21:47:18 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/23 12:59:55 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static char	*msh_setfile(char *str);
 
 static int	msh_redout(char *str, t_fd *in, t_fd *out, int oper);
 
@@ -88,4 +90,32 @@ static int	msh_redout(char *str, t_fd *in, t_fd *out, int oper)
 	else if (oper == 2)
 		out->ffd = open(out->fnm, O_WRONLY | O_CREAT | O_APPEND, 00644);
 	return (0);
+}
+
+static char	*msh_setfile(char *str)
+{
+	char	*file;
+	int		i;
+	char	opt;
+
+	i = 0;
+	while (ft_isspace(*str))
+		str ++;
+	if ((*(str + i) == '\'') || (*(str + i) == '\"'))
+	{
+		opt = *(str + i++);
+		while (*(str + i) != opt)
+			i ++;
+		i++;
+	}
+	else
+		while (*(str + i) && !ft_strchr("<>| \t\n\v\r\f", *(str + i)))
+			i ++;
+	file = ft_substr(str, 0, i);
+	if (!file)
+	{
+		errno = ENOMEM;
+		msh_perror(0, "setfile", 0);
+	}
+	return (file);
 }
