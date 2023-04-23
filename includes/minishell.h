@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 02:05:18 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/18 00:59:26 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/23 13:00:47 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define MINISHELL_H
 
 // Defines
+# ifndef _GNU_SOURCE
+#  define _GNU_SOURCE
+# endif
 
 // Includes
 # include <readline/readline.h>
@@ -36,17 +39,40 @@
 // Enums
 
 // Structs & Unions
+typedef struct s_fd
+{
+	char	*fnm;
+	int		ffd;
+}			t_fd;
 
-// Test
+typedef struct s_cmd
+{
+	t_fd			fdin;
+	t_fd			fdout;
+	char			**args;
+	struct s_cmd	*next;
+}					t_cmd;
 
-// Prompt
+// Main
+int		msh_perror(int ret, char *context, char *msg, ...);
 
 // Data
-
-// Utils
-int	msh_skipquote(char *str);
+t_cmd	*msh_cmdnew(t_fd *in, t_fd *out, char **args);
+void	msh_cmdadd_back(t_cmd **cmd, t_cmd *arg);
+void	msh_cmdclean(t_cmd **cmd);
+void	msh_fdclean(t_fd *fd);
+void	msh_splitclean(char ***split);
+void	*msh_calloc(size_t count, size_t size, char *context);
 
 // Lexer
-int	msh_lexer(char *line);
+int		msh_lexer(char *line);
+
+// Parser
+t_cmd	*msh_parser(char *line);
+t_cmd	*msh_mountarg(char *line);
+int		msh_heredoc(char *eof);
+int		msh_setredir(char *str, t_fd *in, t_fd *out);
+char	**msh_prompt_split(char *line, char set);
+int		msh_skipquote(char *str);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/06 14:23:56 by thfirmin          #+#    #+#              #
-#    Updated: 2023/04/16 01:37:15 by thfirmin         ###   ########.fr        #
+#    Updated: 2023/04/19 10:30:31 by thfirmin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -122,14 +122,14 @@ endif
 # +>                                     CLEAN
 
 clean:	mclean
-	$(foreach libs, $(LIB_TREE), make -C $(LIB_PTH)/$(libs) clean;)
+	#$(foreach libs, $(LIB_TREE), make -C $(LIB_PTH)/$(libs) clean;)
 
 fclean:	clean
-	$(foreach libs, $(LIB_TREE), make -C $(LIB_PTH)/$(libs) fclean;)
 ifneq (,$(shell ls $(NAME) 2> /dev/null))
 	@printf "[${YELLOW}${BOLD}INFO${NULL}] ${UNDLINE}Deleting${NULL} ${NAME} library\n" $(REDIR)
 	rm -rf $(NAME)
 	@printf "[${RED}${BOLD}INFO${NULL}] ${BOLD}Deleted ${NAME} library${NULL}\n" $(REDIR)
 endif
+	#$(foreach libs, $(LIB_TREE), make -C $(LIB_PTH)/$(libs) fclean;)
 # <+-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-' #
 # vim: fdm=marker fmr=+>,<+ ts=4 sw=4 nofen noet:
