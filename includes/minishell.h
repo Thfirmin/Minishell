@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 02:05:18 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/23 13:00:47 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/24 14:48:12 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,8 @@ int		msh_heredoc(char *eof);
 int		msh_setredir(char *str, t_fd *in, t_fd *out);
 char	**msh_prompt_split(char *line, char set);
 int		msh_skipquote(char *str);
+
+// Prompt
+t_cmd	*msh_prompt(char **envp);
 
 #endif
