@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 00:53:19 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/24 07:56:02 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/24 14:53:32 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	msh_lexer(char *line)
 // Verify syntax os unclosed operators
 static short	msh_closedop(char *str)
 {
-
 	while (*str)
 	{
 		if ((*str == '\'') || (*str == '\"'))
