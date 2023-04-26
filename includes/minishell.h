@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 02:05:18 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/24 14:48:12 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/26 20:16:27 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,13 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }					t_cmd;
 
+typedef struct s_shell
+{
+	char	**argv;
+	char	**envp;
+	t_cmd	*cmd;
+}			t_shell;
+
 // Main
 int		msh_perror(int ret, char *context, char *msg, ...);
 
@@ -63,6 +70,9 @@ void	msh_cmdclean(t_cmd **cmd);
 void	msh_fdclean(t_fd *fd);
 void	msh_splitclean(char ***split);
 void	*msh_calloc(size_t count, size_t size, char *context);
+void	*msh_check_alloc(void *ptr, char *context);
+char	*msh_getenvp(char *key, char **envp);
+char	*msh_getenv_value(char *key, char **envp);
 
 // Lexer
 int		msh_lexer(char *line);
@@ -70,12 +80,22 @@ int		msh_lexer(char *line);
 // Parser
 t_cmd	*msh_parser(char *line);
 t_cmd	*msh_mountarg(char *line);
+char	**msh_prompt_split(char *line, char set);
 int		msh_heredoc(char *eof);
 int		msh_setredir(char *str, t_fd *in, t_fd *out);
-char	**msh_prompt_split(char *line, char set);
 int		msh_skipquote(char *str);
 
 // Prompt
 t_cmd	*msh_prompt(char **envp);
+
+// Expansion
+char	*msh_expansion(char *line, char **argv, char **envp);
+char	*msh_expnd_dquote(char **line, char **argv, char **envp);
+char	*msh_expnd_env(char **line, char **argv, char **envp);
+char	*msh_expnd_squote(char **line);
+char	*msh_expnd_txt(char **line, char *eofs);
+char	*msh_unify(char *s1, char *s2);
+char	*msh_strunify(char *s1, char *s2);
+int		msh_isolate(char **src, char **var);
 
 #endif
