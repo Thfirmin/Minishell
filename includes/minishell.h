@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 02:05:18 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/26 20:16:27 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/26 21:12:15 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct s_shell
 
 // Main
 int		msh_perror(int ret, char *context, char *msg, ...);
+t_shell	msh_initshell(char **argv, char **envp);
 
 // Data
 t_cmd	*msh_cmdnew(t_fd *in, t_fd *out, char **args);
