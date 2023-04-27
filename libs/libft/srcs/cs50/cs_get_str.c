@@ -1,28 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_expnd_txt.c                                    :+:      :+:    :+:   */
+/*   cs_get_str.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/25 16:25:25 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/27 17:14:00 by thfirmin         ###   ########.fr       */
+/*   Created: 2023/04/27 10:30:25 by thfirmin          #+#    #+#             */
+/*   Updated: 2023/04/27 10:38:49 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "cs50.h"
 
-char	*msh_expnd_txt(char **line, char *eofs)
+char	*cs_get_str(char *prompt)
 {
 	char	*str;
-	int		i;
+	char	*tmp;
+	char	buff[BUFFER_SIZE + 1];
+	int		blen;
 
-	if (!line)
-		return (0);
-	i = 0;
-	while (*(*line + i) && !ft_strchr(eofs, *(*line + i)))
-		i ++;
-	str = ft_substr(*line, 0, i);
-	*line += i;
+	if (prompt)
+		cs_putstr_fd(prompt, 1);
+	str = 0;
+	blen = 0;
+	while (*(buff + (blen - 1)) != '\n')
+	{
+		blen = read (0, buff, BUFFER_SIZE);
+		*(buff + blen) = '\0';
+		tmp = cs_strjoin(str, buff);
+		if (!tmp)
+		free (str);
+		if (!tmp)
+			return (0);
+		str = tmp;
+	}
 	return (str);
 }

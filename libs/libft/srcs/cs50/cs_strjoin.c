@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_expnd_txt.c                                    :+:      :+:    :+:   */
+/*   cs_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/25 16:25:25 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/27 17:14:00 by thfirmin         ###   ########.fr       */
+/*   Created: 2023/04/27 10:34:56 by thfirmin          #+#    #+#             */
+/*   Updated: 2023/04/27 10:38:00 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "cs50.h"
 
-char	*msh_expnd_txt(char **line, char *eofs)
+char	*cs_strjoin(char *s1, char *s2)
 {
-	char	*str;
-	int		i;
+	char	*ret;
+	int		len;
 
-	if (!line)
+	ret = malloc(cs_strlen(s1) + cs_strlen(s2) + 1);
+	if (!ret)
 		return (0);
-	i = 0;
-	while (*(*line + i) && !ft_strchr(eofs, *(*line + i)))
-		i ++;
-	str = ft_substr(*line, 0, i);
-	*line += i;
-	return (str);
+	len = 0;
+	if (s1)
+		while (*s1)
+			*(ret + len++) = *s1++;
+	if (s2)
+		while (*s2)
+			*(ret + len++) = *s2++;
+	*(ret + len) = '\0';
+	return (ret);
 }

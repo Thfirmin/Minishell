@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 07:04:41 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/23 12:38:19 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/27 17:39:33 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,28 @@
 
 // Parser algorithm
 
-t_cmd	*msh_parser(char *line)
+void	msh_parser(char *line, t_shell *sh)
 {
 	char	**args;
 	int		aux;
-	t_cmd	*cmd;
 	t_cmd	*node;
 
 	if (!line || !*line)
-		return (0);
-	args = msh_prompt_split(line, '|');
+		return ;
+	args = msh_prompt_split(line, "|");
 	if (!args)
-		return (0);
-	cmd = 0;
+		return ;
 	aux = -1;
 	while (*(args + ++aux))
 	{
-		node = msh_mountarg(*(args + aux));
+		node = msh_mountarg(*(args + aux), sh);
 		if (!node)
 		{
-			msh_cmdclean(&cmd);
+			msh_cmdclean(&sh->cmd);
 			msh_splitclean(&args);
-			return (0);
+			return ;
 		}
-		msh_cmdadd_back(&cmd, node);
+		msh_cmdadd_back(&sh->cmd, node);
 	}
 	msh_splitclean(&args);
-	return (cmd);
 }

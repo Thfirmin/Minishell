@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:18:59 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/26 11:13:36 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/27 17:13:53 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,15 @@ char	*msh_expnd_dquote(char **line, char **argv, char **envp)
 		else
 			tmp = msh_expnd_txt(line, "$\"");
 		str = msh_unify(str, tmp);
-		if (!str)
-			return (0);
 	}
 	if (*(*line))
 		*line += 1;
-	if (!str)
-		str = ft_calloc(1, 1);
-	return ((char *) msh_check_alloc(str, "expansion"));
+	if (!str || !*str)
+	{
+		free (str);
+		str = ft_strdup(" ");
+	}
+	return (str);
 }
 
 static int	msh_dquote_syntax(char *str)

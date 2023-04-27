@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 07:35:37 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/26 21:04:17 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/27 17:13:50 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,5 @@ char	*msh_expansion(char *line, char **argv, char **envp)
 		if (!str)
 			return (0);
 	}
-	if (!str)
-		str = msh_check_alloc(ft_calloc(1, 1), "expansion");
 	return (str);
 }

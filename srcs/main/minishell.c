@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 03:34:40 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/26 21:13:01 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/27 19:44:02 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,13 @@ void	msh_print(t_cmd *cmd);
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_shell	sh;
-	t_cmd	*node;
 
 	sh = msh_initshell(argv, envp);
 	(void) sh;
 	(void) argc;
-	while (1)
-	{
-		node = msh_prompt(envp);
-		msh_print(node);
-		msh_cmdclean(&node);
-	}
+	msh_prompt(&sh);
+	msh_print(sh.cmd);
+	msh_cmdclean(&sh.cmd);
 	return (0);
 }
 

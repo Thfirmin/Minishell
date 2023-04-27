@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:05:01 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/26 11:13:42 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/27 17:13:58 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,11 @@ char	*msh_expnd_squote(char **line)
 		return (0);
 	}
 	str = ft_substr(*line, 0, i);
+	if (!str || !*str)
+	{
+		free (str);
+		str = ft_strdup(" ");
+	}
 	*line += (i + 1);
-	return ((char *) msh_check_alloc(str, "expansion"));
+	return (str);
 }

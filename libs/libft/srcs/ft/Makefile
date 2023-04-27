@@ -6,7 +6,7 @@
 #    By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/06 14:23:56 by thfirmin          #+#    #+#              #
-#    Updated: 2023/04/16 00:58:53 by thfirmin         ###   ########.fr        #
+#    Updated: 2023/04/27 11:38:14 by thfirmin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -114,16 +114,16 @@ re:	fclean all
 # +>                                   MANDATORY
 
 $(NAME):	$(OBJS)
-	@printf "[${YELLOW}${BOLD}INFO${NULL}] ${UNDLINE}Compiling${NULL} ${PROJ} library\n" $(REDIR)
+	@printf "[${YELLOW}${BOLD}INFO${NULL}] ${UNDLINE}Compiling${NULL} ${PROJ} dependency\n" $(REDIR)
 	ar -rcs $(NAME) $(OBJS)
 	ranlib $(NAME)
-	@printf "[${GREEN}${BOLD}INFO${NULL}] ${BOLD}Compiled ${PROJ} library${NULL}\n" $(REDIR)
+	@printf "[${GREEN}${BOLD}INFO${NULL}] ${PROJ} dependency ${BOLD}Compiled${NULL}\n" $(REDIR)
 
 mclean:
 ifneq (,$(shell ls $(OBJS) 2> /dev/null))
 	@printf "[${YELLOW}${BOLD}INFO${NULL}] ${UNDLINE}Deleting${NULL} ${PROJ} objects\n" $(REDIR)
 	rm -rf $(shell ls $(OBJS) 2> /dev/null)
-	@printf "[${BLUE}${BOLD}INFO${NULL}] ${BOLD}Deleted ${PROJ} objects${NULL}\n" $(REDIR)
+	@printf "[${BLUE}${BOLD}INFO${NULL}] ${PROJ} objects ${BOLD}Deleted${NULL}\n" $(REDIR)
 endif
 
 re:		fclean all

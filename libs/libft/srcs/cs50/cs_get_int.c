@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_expnd_txt.c                                    :+:      :+:    :+:   */
+/*   cs_get_int.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/25 16:25:25 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/27 17:14:00 by thfirmin         ###   ########.fr       */
+/*   Created: 2023/04/27 10:43:10 by thfirmin          #+#    #+#             */
+/*   Updated: 2023/04/27 11:15:08 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "cs50.h"
 
-char	*msh_expnd_txt(char **line, char *eofs)
+int	cs_get_int(char *prompt)
 {
-	char	*str;
-	int		i;
+	int	n;
 
-	if (!line)
-		return (0);
-	i = 0;
-	while (*(*line + i) && !ft_strchr(eofs, *(*line + i)))
-		i ++;
-	str = ft_substr(*line, 0, i);
-	*line += i;
-	return (str);
+	if (prompt)
+		cs_putstr_fd(prompt, 1);
+	(void) n;
+	return (0);
 }

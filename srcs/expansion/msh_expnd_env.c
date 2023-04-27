@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:30:49 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/26 11:13:38 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/27 17:13:56 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@ char	*msh_expnd_env(char **line, char **argv, char **envp)
 {
 	char	*ret;
 
-	if (*(*line + 1) == '$')
-		ret = msh_getint(line, getpid());
-	else if (*(*line + 1) == '?')
+	if (*(*line + 1) == '?')
 		ret = msh_getint(line, 0);
 	else if (*(*line + 1) == '{')
 		ret = msh_getbracket(line, envp);
@@ -36,7 +34,7 @@ char	*msh_expnd_env(char **line, char **argv, char **envp)
 		ret = msh_gettxt(line, envp);
 	else
 	{
-		ret = msh_check_alloc(ft_strdup("$"), "expansion");
+		ret = ft_strdup("$");
 		*line += 1;
 	}
 	return (ret);
@@ -46,7 +44,7 @@ static char	*msh_getint(char **line, int i)
 {
 	char	*ret;
 
-	ret = msh_check_alloc(ft_itoa(i), "expansion");
+	ret = ft_itoa(i);
 	*line += 2;
 	return (ret);
 }
@@ -61,15 +59,13 @@ static char	*msh_gettxt(char **line, char **envp)
 	*line += 1;
 	while (ft_isalnum(*(*line + i)) || (*(*line + i) == '_'))
 		i ++;
-	var = msh_check_alloc(ft_substr(*line, 0, i), "expansion");
+	var = ft_substr(*line, 0, i);
 	if (!var)
 		return (0);
 	ret = msh_getenv_value(var, envp);
 	*line += i;
-	if (!ret)
-		ret = ft_calloc(1, 1);
 	free (var);
-	return (msh_check_alloc(ret, "expansion"));
+	return (ret);
 }
 
 static char	*msh_getargv(char **line, char **argv)
@@ -81,7 +77,7 @@ static char	*msh_getargv(char **line, char **argv)
 
 	*line += 1;
 	i = -1;
-	num = msh_check_alloc(ft_substr(*line, 0, 1), "expansion");
+	num = ft_substr(*line, 0, 1);
 	if (!num)
 		return (0);
 	end = ft_atoi(num);
@@ -94,11 +90,9 @@ static char	*msh_getargv(char **line, char **argv)
 			break ;
 		}
 	}
-	if (!str)
-		str = ft_calloc(1, 1);
 	*line += 1;
 	free (num);
-	return (msh_check_alloc(str, "expansion"));
+	return (str);
 }
 
 static char	*msh_getbracket(char **line, char **envp)
@@ -119,7 +113,5 @@ static char	*msh_getbracket(char **line, char **envp)
 	free (tmp);
 	tmp = msh_getenv_value(env, envp);
 	free (env);
-	if (!tmp)
-		tmp = ft_calloc(1, 1);
-	return (msh_check_alloc(tmp, "expansion"));
+	return (tmp);
 }
