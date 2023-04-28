@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 03:34:40 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/27 19:44:02 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/28 00:04:35 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	main(int argc, char *argv[], char *envp[])
 	t_shell	sh;
 
 	sh = msh_initshell(argv, envp);
-	(void) sh;
 	(void) argc;
 	msh_prompt(&sh);
 	msh_print(sh.cmd);

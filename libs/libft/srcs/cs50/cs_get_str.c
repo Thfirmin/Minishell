@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:30:25 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/27 10:38:49 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/28 00:11:31 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ char	*cs_get_str(char *prompt)
 		blen = read (0, buff, BUFFER_SIZE);
 		*(buff + blen) = '\0';
 		tmp = cs_strjoin(str, buff);
-		if (!tmp)
 		free (str);
 		if (!tmp)
 			return (0);

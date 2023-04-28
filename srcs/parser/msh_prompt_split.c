@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_prompt_split2.c                                :+:      :+:    :+:   */
+/*   msh_prompt_split.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 14:53:11 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/27 15:48:13 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/28 00:20:21 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ static char	*msh_subword(char *line, int len)
 
 	if (!line)
 		return (0);
-
 	tmp = ft_substr(line, 0, len);
 	word = ft_strtrim(tmp, " \t\n\v\f\r");
 	free (tmp);

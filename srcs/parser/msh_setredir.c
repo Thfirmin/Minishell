@@ -6,13 +6,11 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:47:33 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/27 19:36:44 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/28 00:21:07 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	msh_setmod(char *str, char opt);
 
 static char	*msh_setfile(char *str, t_shell *sh);
 
@@ -68,7 +66,6 @@ static int	msh_redin(char *str, t_fd *io, int oper, t_shell *sh)
 		return (0);
 	}
 	msh_fdclean(&io[IN]);
-	str += oper;
 	io[IN].fnm = msh_setfile(str, sh);
 	if (!io[IN].fnm)
 		return (-1);
@@ -82,7 +79,6 @@ static int	msh_redin(char *str, t_fd *io, int oper, t_shell *sh)
 // create setter of fd struct: clean struct, copy file, open'n'fill input
 static int	msh_redout(char *str, t_fd *io, int oper, t_shell *sh)
 {
-
 	if ((io[IN].ffd == -1) || (io[OUT].ffd == -1))
 		return (0);
 	msh_fdclean(&io[OUT]);
@@ -120,14 +116,4 @@ static char	*msh_setfile(char *str, t_shell *sh)
 	file = msh_expansion(tmp, sh->argv, sh->envp);
 	free (tmp);
 	return (msh_check_alloc(file, "setfile"));
-}
-
-int	msh_setmod(char *str, char opt)
-{
-	int	oper;
-
-	oper = 0;
-	while (*(str + oper) == opt)
-		oper ++;
-	return (oper);
 }

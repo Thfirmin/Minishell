@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 11:55:56 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/27 12:00:51 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/28 00:23:18 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*cs_get_line(char *prompt)
 		return (0);
 	}
 	i = -1;
-	while(*(tmp + ++i) != '\n')
+	while (*(tmp + ++i) != '\n')
 		*(str + i) = *(tmp + i);
 	*(str + i) = '\0';
 	free (tmp);
