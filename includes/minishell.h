@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 02:05:18 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/27 19:43:37 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/28 14:06:10 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ typedef struct s_shell
 	t_cmd	*cmd;
 }			t_shell;
 
+extern int	g_rstatus;
+
 // Main
 int		msh_perror(int ret, char *context, char *msg, ...);
 t_shell	msh_initshell(char **argv, char **envp);
@@ -79,6 +81,7 @@ void	*msh_calloc(size_t count, size_t size, char *context);
 void	*msh_check_alloc(void *ptr, char *context);
 char	*msh_getenvp(char *key, char **envp);
 char	*msh_getenv_value(char *key, char **envp);
+int		msh_cmdsize(t_cmd *cmd);
 
 // Lexer
 int		msh_lexer(char *line);
@@ -103,5 +106,10 @@ char	*msh_expnd_txt(char **line, char *eofs);
 char	*msh_unify(char *s1, char *s2);
 char	*msh_strunify(char *s1, char *s2);
 int		msh_isolate(char **src, char **var);
+
+// Executor
+void	msh_executor(t_shell *sh);
+
+void	test(void);
 
 #endif
