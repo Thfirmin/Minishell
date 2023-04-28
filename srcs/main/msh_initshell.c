@@ -1,41 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_parser.c                                       :+:      :+:    :+:   */
+/*   msh_initshell.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/18 07:04:41 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/27 17:39:33 by thfirmin         ###   ########.fr       */
+/*   Created: 2023/04/26 20:20:05 by thfirmin          #+#    #+#             */
+/*   Updated: 2023/04/26 20:24:52 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// Parser algorithm
-
-void	msh_parser(char *line, t_shell *sh)
+t_shell	msh_initshell(char **argv, char **envp)
 {
-	char	**args;
-	int		aux;
-	t_cmd	*node;
+	t_shell	sh;
 
-	if (!line || !*line)
-		return ;
-	args = msh_prompt_split(line, "|");
-	if (!args)
-		return ;
-	aux = -1;
-	while (*(args + ++aux))
-	{
-		node = msh_mountarg(*(args + aux), sh);
-		if (!node)
-		{
-			msh_cmdclean(&sh->cmd);
-			msh_splitclean(&args);
-			return ;
-		}
-		msh_cmdadd_back(&sh->cmd, node);
-	}
-	msh_splitclean(&args);
+	ft_memset(&sh, 0, sizeof(t_shell));
+	sh.argv = argv;
+	sh.envp = envp;
+	return (sh);
 }

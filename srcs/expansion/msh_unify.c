@@ -1,41 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_parser.c                                       :+:      :+:    :+:   */
+/*   msh_unify.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/18 07:04:41 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/27 17:39:33 by thfirmin         ###   ########.fr       */
+/*   Created: 2023/04/26 07:25:15 by thfirmin          #+#    #+#             */
+/*   Updated: 2023/04/26 11:59:29 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// Parser algorithm
-
-void	msh_parser(char *line, t_shell *sh)
+char	*msh_unify(char *s1, char *s2)
 {
-	char	**args;
-	int		aux;
-	t_cmd	*node;
-
-	if (!line || !*line)
-		return ;
-	args = msh_prompt_split(line, "|");
-	if (!args)
-		return ;
-	aux = -1;
-	while (*(args + ++aux))
+	if (!s2)
 	{
-		node = msh_mountarg(*(args + aux), sh);
-		if (!node)
-		{
-			msh_cmdclean(&sh->cmd);
-			msh_splitclean(&args);
-			return ;
-		}
-		msh_cmdadd_back(&sh->cmd, node);
+		free (s1);
+		return (0);
 	}
-	msh_splitclean(&args);
+	s1 = msh_strunify(s1, s2);
+	return (s1);
+}
+
+char	*msh_strunify(char *s1, char *s2)
+{
+	char	*tmp;
+
+	tmp = msh_check_alloc(ft_strjoin(s1, s2), "expansion");
+	free (s1);
+	free (s2);
+	return (tmp);
 }

@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 13:18:23 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/24 14:48:10 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/27 23:32:02 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,31 @@
 
 static char	*msh_setps1(char **envp);
 
-t_cmd	*msh_prompt(char **envp)
+/*
+ * > Read line
+ * > Orchestra line: send to lexer and parser
+ * > Process line: manipulate to inline and multiline prompt
+ * > Add history
+ * > Return command table
+ */
+void	msh_prompt(t_shell *sh)
 {
 	char		*ps1;
 	char		*prompt;
-	t_cmd		*cmd;
 
-	cmd = 0;
-	ps1 = msh_setps1(envp);
+	ps1 = msh_setps1(sh->envp);
 	if (!ps1)
-		return (0);
-	prompt = readline(ps1);
+		return ;
+	prompt = cs_get_line(ps1);
+	free (ps1);
 	if (!prompt)
 		exit (0);
 	if (msh_lexer(prompt))
-		cmd = msh_parser(prompt);
+		msh_parser(prompt, sh);
 	free (prompt);
-	free (ps1);
-	return (cmd);
 }
 
+// Take prompt line
 static char	*msh_setps1(char **envp)
 {
 	char	*ps1;

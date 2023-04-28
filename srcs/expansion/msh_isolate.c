@@ -1,41 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_parser.c                                       :+:      :+:    :+:   */
+/*   msh_isolate.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/18 07:04:41 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/27 17:39:33 by thfirmin         ###   ########.fr       */
+/*   Created: 2023/04/26 08:41:11 by thfirmin          #+#    #+#             */
+/*   Updated: 2023/04/26 11:58:27 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// Parser algorithm
-
-void	msh_parser(char *line, t_shell *sh)
+int	msh_isolate(char **src, char **var)
 {
-	char	**args;
-	int		aux;
-	t_cmd	*node;
+	int		i;
+	int		ret;
 
-	if (!line || !*line)
-		return ;
-	args = msh_prompt_split(line, "|");
-	if (!args)
-		return ;
-	aux = -1;
-	while (*(args + ++aux))
+	i = 2;
+	ret = 1;
+	while (*(*src + i) && (*(*src + i) != '}'))
 	{
-		node = msh_mountarg(*(args + aux), sh);
-		if (!node)
-		{
-			msh_cmdclean(&sh->cmd);
-			msh_splitclean(&args);
-			return ;
-		}
-		msh_cmdadd_back(&sh->cmd, node);
+		if (!ft_isalnum(*(*src + i)) && (*(*src + i) != '_'))
+			ret = 0;
+		i ++;
 	}
-	msh_splitclean(&args);
+	if (!*(*src + i))
+		ret = 0;
+	*var = msh_check_alloc(ft_substr(*src, 0, (i + 1)), "expansion");
+	*src += i;
+	if (**src)
+		*src += 1;
+	return (ret);
 }

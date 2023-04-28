@@ -6,7 +6,7 @@
 #    By: thfirmin <thiagofirmino2001@gmail.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/11 21:07:07 by thfirmin          #+#    #+#              #
-#    Updated: 2023/04/24 13:17:04 by thfirmin         ###   ########.fr        #
+#    Updated: 2023/04/27 11:48:29 by thfirmin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,10 +63,16 @@ FULLER			= \e[7m
 # <+-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-' #
 # +>                                     RULES 
 
-all:	ftprintf ft
+all:	$(SRCS)
 
-$(SRCS): 
-	make -C $(PTH_SRC)$@
+$(SRCS):
+	@if [ "$@" = "$(firstword $(SRCS))" ]; then \
+		printf "[${YELLOW}${BOLD}INFO${NULL}] ${UNDINE}Compiling${NULL} ${NAME} library\n" $(REDIR); \
+	fi
+	make -C $(PTH_SRC)$@ && sleep 0.5
+	@if [ "$@" = "$(lastword $(SRCS))" ]; then \
+		printf "[${GREEN}${BOLD}INFO${NULL}] ${NAME} library ${BOLD}Compiled${NULL}\n" $(REDIR); \
+	fi
 
 bonus:
 	$(foreach lib, $(LIBS), make bonus -C $(lib);)
@@ -84,7 +90,7 @@ fclean:	clean
 ifneq (,$(shell ls $(MASTERLIB) 2> /dev/null))
 	@printf "[${YELLOW}${BOLD}INFO${NULL}] ${UNDLINE}Deleting${NULL} ${NAME} library\n" $(REDIR)
 	rm -rf $(MASTERLIB)
-	@printf "[${RED}${BOLD}INFO${NULL}] ${BOLD}Deleted ${NAME} library${NULL}\n" $(REDIR)
+	@printf "[${RED}${BOLD}INFO${NULL}] ${NAME} library ${BOLD}Deleted${NULL}\n" $(REDIR)
 endif
 
 bre: fclean bonus

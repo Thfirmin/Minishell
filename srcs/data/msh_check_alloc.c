@@ -1,41 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_parser.c                                       :+:      :+:    :+:   */
+/*   msh_check_alloc.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/18 07:04:41 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/27 17:39:33 by thfirmin         ###   ########.fr       */
+/*   Created: 2023/04/25 16:31:38 by thfirmin          #+#    #+#             */
+/*   Updated: 2023/04/26 11:58:50 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// Parser algorithm
-
-void	msh_parser(char *line, t_shell *sh)
+void	*msh_check_alloc(void *ptr, char *context)
 {
-	char	**args;
-	int		aux;
-	t_cmd	*node;
-
-	if (!line || !*line)
-		return ;
-	args = msh_prompt_split(line, "|");
-	if (!args)
-		return ;
-	aux = -1;
-	while (*(args + ++aux))
+	if (!ptr)
 	{
-		node = msh_mountarg(*(args + aux), sh);
-		if (!node)
-		{
-			msh_cmdclean(&sh->cmd);
-			msh_splitclean(&args);
-			return ;
-		}
-		msh_cmdadd_back(&sh->cmd, node);
+		errno = ENOMEM;
+		msh_perror(0, context, 0);
 	}
-	msh_splitclean(&args);
+	return (ptr);
 }

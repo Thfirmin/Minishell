@@ -1,41 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_parser.c                                       :+:      :+:    :+:   */
+/*   msh_expnd_txt.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/18 07:04:41 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/27 17:39:33 by thfirmin         ###   ########.fr       */
+/*   Created: 2023/04/25 16:25:25 by thfirmin          #+#    #+#             */
+/*   Updated: 2023/04/27 17:14:00 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// Parser algorithm
-
-void	msh_parser(char *line, t_shell *sh)
+char	*msh_expnd_txt(char **line, char *eofs)
 {
-	char	**args;
-	int		aux;
-	t_cmd	*node;
+	char	*str;
+	int		i;
 
-	if (!line || !*line)
-		return ;
-	args = msh_prompt_split(line, "|");
-	if (!args)
-		return ;
-	aux = -1;
-	while (*(args + ++aux))
-	{
-		node = msh_mountarg(*(args + aux), sh);
-		if (!node)
-		{
-			msh_cmdclean(&sh->cmd);
-			msh_splitclean(&args);
-			return ;
-		}
-		msh_cmdadd_back(&sh->cmd, node);
-	}
-	msh_splitclean(&args);
+	if (!line)
+		return (0);
+	i = 0;
+	while (*(*line + i) && !ft_strchr(eofs, *(*line + i)))
+		i ++;
+	str = ft_substr(*line, 0, i);
+	*line += i;
+	return (str);
 }

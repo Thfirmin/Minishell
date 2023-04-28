@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: thfirmin <thfirmin@student.42.fr>          +#+  +:+       +#+         #
+#    By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/04/01 20:52:29 by thfirmin          #+#    #+#              #
-#    Updated: 2023/04/27 11:38:46 by thfirmin         ###   ########.fr        #
+#    Created: 2022/10/06 14:23:56 by thfirmin          #+#    #+#              #
+#    Updated: 2023/04/27 12:01:46 by thfirmin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,22 +14,29 @@
 
 NAME	= $(MASTERLIB)
 
-PROJ	= libftprintf
+PROJ	= libcs50
 # <+-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-' #
 # +>                                    CONFIG
 
-CC			= cc
-CFLAGS		= -Wall -Wextra -Werror
+CC	= cc
+CFLAGS	= -Wall -Wextra -Werror
 # <+-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-' #
-# +>                                    SOURCES 
+# +>                                    SOURCES
 
-SRCS	= ft_printf.c \
-		  ft_puthex_fd.c \
-		  ft_putunbr_fd.c
+SRCS	= \
+		  cs_get_char.c \
+		  cs_get_str.c \
+		  cs_get_line.c \
+		  cs_get_int.c \
+		  cs_strjoin.c \
+		  cs_strlen.c \
+		  cs_putstr_fd.c
 
 OBJS	= $(SRCS:.c=.o)
+
 # <+-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-' #
-# +>                                     CODES 
+# +>                                    ALIASES 
+
 
 NULL			= \e[m
 RED				= \e[38;5;9m
@@ -53,20 +60,21 @@ FULLER			= \e[7m
 # <+-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-' #
 # +>                                     RULES
 
+all:	$(NAME)
+
 .c.o:
 	$(CC) $(CFLAGS) $(DFLAGS) $(OFLAGS) $(IFLAGS) -c $< $(LFLAGS) -o $(<:.c=.o)
 
-all:	$(NAME)
+re:	fclean all
 
-re:		fclean all
-.PHONY: all clean fclean re
+.PHONY: all clean mclean fclean re
 # <+-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-' #
 # +>                                   MANDATORY
 
 $(NAME):	$(OBJS)
 	@printf "[${YELLOW}${BOLD}INFO${NULL}] ${UNDLINE}Compiling${NULL} ${PROJ} dependency\n" $(REDIR)
-	ar -rcs $(MASTERLIB) $(OBJS)
-	ranlib $(MASTERLIB)
+	ar -rcs $(NAME) $(OBJS)
+	ranlib $(NAME)
 	@printf "[${GREEN}${BOLD}INFO${NULL}] ${PROJ} dependency ${BOLD}Compiled${NULL}\n" $(REDIR)
 
 mclean:
@@ -75,19 +83,13 @@ ifneq (,$(shell ls $(OBJS) 2> /dev/null))
 	rm -rf $(shell ls $(OBJS) 2> /dev/null)
 	@printf "[${BLUE}${BOLD}INFO${NULL}] ${PROJ} objects ${BOLD}Deleted${NULL}\n" $(REDIR)
 endif
-# <+-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-' #
-# +>                                     BONUS
 
-bonus:	all
-
-bclean: mclean
-
-bre:	fclean bonus
+re:		fclean all
 # <+-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-' #
 # +>                                     CLEAN 
 
-clean:	mclean bclean
+clean:	mclean
 
 fclean:	clean
 # <+-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-' #
-# vim: fdm=marker fmr=+>,<+ ts=4 sw=4 nofen noet
+# vim: fdm=marker fmr=+>,<+ ts=4 sw=4 nofen noet:

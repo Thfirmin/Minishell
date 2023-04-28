@@ -5,108 +5,113 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/21 21:55:03 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/23 11:38:20 by thfirmin         ###   ########.fr       */
+/*   Created: 2023/04/27 14:53:11 by thfirmin          #+#    #+#             */
+/*   Updated: 2023/04/28 00:20:21 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	**msh_spliterr(char **split);
+static char	**msh_splterr(char **split);
 
-static char	*msh_getword(char *str, int len);
+static char	*msh_subword(char *line, int len);
 
-static int	msh_wordlen(char *str, char set);
+static int	msh_wordlen(char *line, const char *set);
 
-static int	msh_wordcount(char *str, char set);
+static int	msh_wordcount(char *line, const char *set);
 
-// Split a prompt string based by a set character
-char	**msh_prompt_split(char *line, char set)
+char	**msh_prompt_split(char *line, const char *set)
 {
-	char	**split;
 	int		words;
 	int		i;
 	int		len;
+	char	**split;
 
-	if (!line)
+	if (!line || !set)
 		return (0);
 	words = msh_wordcount(line, set);
-	split = msh_calloc(words + 1, sizeof(char *), "parser");
+	split = msh_check_alloc(ft_calloc ((words + 1), sizeof(char *)), "split");
 	if (!split)
 		return (0);
 	i = -1;
 	while (++i < words)
 	{
-		while (*line == set)
+		while (ft_strchr(set, *line))
 			line ++;
 		len = msh_wordlen(line, set);
-		*(split + i) = msh_getword(line, len);
+		*(split + i) = msh_subword(line, len);
 		if (!*(split + i))
-			return (msh_spliterr(split));
+			return (msh_splterr(split));
 		line += len;
 	}
 	*(split + i) = (void *)0;
 	return (split);
 }
 
-// Take count of words that will be splitted
-static int	msh_wordcount(char *str, char set)
+static int	msh_wordcount(char *line, const char *set)
 {
-	int	count;
+	int	words;
 	int	aux;
 
-	count = 0;
-	while (*str)
+	words = 0;
+	if (!line || !set)
+		return (0);
+	while (*line)
 	{
-		if (*str && (*str != set))
+		if (*line && !ft_strchr(set, *line))
 		{
-			count ++;
-			while (*str && (*str != set))
+			words ++;
+			while (*line && !ft_strchr(set, *line))
 			{
-				aux = msh_skipquote(str);
+				aux = msh_skipquote(line);
 				if (aux)
-					str += (aux + 1);
+					line += (aux + 1);
 				else
-					str ++;
+					line ++;
 			}
 		}
-		while (*str && (*str == set))
-			str++;
+		while (*line && ft_strchr(set, *line))
+			line ++;
 	}
-	return (count);
+	return (words);
 }
 
-// Take len of word to be cropped
-static int	msh_wordlen(char *str, char set)
+static int	msh_wordlen(char *line, const char *set)
 {
 	int	len;
 
+	if (!line || !set)
+		return (0);
 	len = 0;
-	while (*(str + len) && (*(str + len) != set))
+	while (*(line + len) && !ft_strchr(set, *(line + len)))
 	{
-		len += msh_skipquote(str + len);
+		len += msh_skipquote(line + len);
 		len ++;
 	}
 	return (len);
 }
 
-// Take allocated word to string array
-static char	*msh_getword(char *str, int len)
+static char	*msh_subword(char *line, int len)
 {
 	char	*word;
 	char	*tmp;
 
-	tmp = ft_substr(str, 0, len);
+	if (!line)
+		return (0);
+	tmp = ft_substr(line, 0, len);
 	word = ft_strtrim(tmp, " \t\n\v\f\r");
 	free (tmp);
-	return (word);
+	return (msh_check_alloc(word, "split"));
 }
 
-// take error demand before returning
-static char	**msh_spliterr(char **split)
+static char	**msh_splterr(char **split)
 {
-	msh_splitclean(&split);
-	errno = ENOMEM;
-	msh_perror(0, "parser", 0);
+	int	i;
+
+	if (!split)
+		return (0);
+	i = -1;
+	while (*(split + ++i))
+		free (*(split + i));
 	return (0);
 }

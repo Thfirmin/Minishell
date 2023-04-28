@@ -1,41 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_parser.c                                       :+:      :+:    :+:   */
+/*   msh_expnd_squote.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/18 07:04:41 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/27 17:39:33 by thfirmin         ###   ########.fr       */
+/*   Created: 2023/04/25 17:05:01 by thfirmin          #+#    #+#             */
+/*   Updated: 2023/04/27 17:13:58 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// Parser algorithm
-
-void	msh_parser(char *line, t_shell *sh)
+char	*msh_expnd_squote(char **line)
 {
-	char	**args;
-	int		aux;
-	t_cmd	*node;
+	char	*str;
+	int		i;
 
-	if (!line || !*line)
-		return ;
-	args = msh_prompt_split(line, "|");
-	if (!args)
-		return ;
-	aux = -1;
-	while (*(args + ++aux))
+	if (*line)
+		*line += 1;
+	i = 0;
+	while (*(*line + i) && (*(*line + i) != '\''))
+		i ++;
+	if (!*(*line + i))
 	{
-		node = msh_mountarg(*(args + aux), sh);
-		if (!node)
-		{
-			msh_cmdclean(&sh->cmd);
-			msh_splitclean(&args);
-			return ;
-		}
-		msh_cmdadd_back(&sh->cmd, node);
+		msh_perror(0, "expansion", "unterminated single quote");
+		return (0);
 	}
-	msh_splitclean(&args);
+	str = ft_substr(*line, 0, i);
+	if (!str || !*str)
+	{
+		free (str);
+		str = ft_strdup(" ");
+	}
+	*line += (i + 1);
+	return (str);
 }
