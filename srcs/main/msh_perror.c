@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 10:19:36 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/28 16:22:35 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/29 00:49:25 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	msh_perror(int ret, char *context, char *msg, ...)
 				if (*(msg + 1) == 's')
 					ft_putstr_fd(va_arg(ap, char *), 2);
 				else
-					ft_putchar_fd(*(msg + 1), 2);
+					ft_putchar_fd(va_arg(ap, int), 2);
 				msg += 2;
 			}
 			else

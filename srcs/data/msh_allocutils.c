@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_cmdsize.c                                      :+:      :+:    :+:   */
+/*   msh_allocutils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/28 11:51:45 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/28 12:04:47 by thfirmin         ###   ########.fr       */
+/*   Created: 2023/04/29 00:30:20 by thfirmin          #+#    #+#             */
+/*   Updated: 2023/04/29 00:31:16 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	msh_cmdsize(t_cmd *cmd)
+void	*msh_check_alloc(void *ptr, char *context)
 {
-	int		len;
-
-	len = 0;
-	while (cmd)
+	if (!ptr)
 	{
-		len ++;
-		cmd = cmd->next;
+		errno = ENOMEM;
+		msh_perror(0, context, 0);
 	}
-	return (len);
+	return (ptr);
 }

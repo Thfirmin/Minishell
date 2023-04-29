@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 13:18:23 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/28 20:41:40 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/29 09:31:10 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	msh_prompt(t_shell *sh)
 {
 	char		*ps1;
 	char		*prompt;
+	char		*ptr;
 
 	ps1 = msh_setps1(sh->envp);
 	if (!ps1)
@@ -32,9 +33,15 @@ void	msh_prompt(t_shell *sh)
 	prompt = readline(ps1);
 	free (ps1);
 	if (!prompt)
-		exit (0);
+		exit (0); // exit
 	if (msh_lexer(prompt))
 		msh_parser(prompt, sh);
+	ptr = prompt;
+	if (ptr)
+		while (ft_isspace(*ptr))
+			ptr ++;
+	if (ptr && *ptr)
+		add_history(prompt);
 	free (prompt);
 }
 
@@ -45,10 +52,5 @@ static char	*msh_setps1(char **envp)
 
 	(void) envp;
 	ps1 = ft_strdup("minishell$> ");
-	if (!ps1)
-	{
-		errno = ENOMEM;
-		msh_perror(0, "ps1", 0);
-	}
-	return (ps1);
+	return (msh_check_alloc(ps1, "setps1"));
 }

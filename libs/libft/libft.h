@@ -6,7 +6,7 @@
 /*   By: tde-souz <tde-souz@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 19:50:29 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/28 21:37:50 by tde-souz         ###   ########.fr       */
+/*   Updated: 2023/04/29 09:43:31 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include "includes/ft_printf.h"
-# include "includes/cs50.h"
 
 // Struct
 typedef struct s_list

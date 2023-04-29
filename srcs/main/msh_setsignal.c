@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cs_get_char.c                                      :+:      :+:    :+:   */
+/*   msh_setsignal.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/27 10:24:04 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/27 10:27:01 by thfirmin         ###   ########.fr       */
+/*   Created: 2023/04/29 07:44:17 by thfirmin          #+#    #+#             */
+/*   Updated: 2023/04/29 09:23:34 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cs50.h"
+#include "minishell.h"
 
-char	cs_get_char(char *prompt)
+static void	msh_error_handler(int sig);
+
+void	msh_setsignal(void)
 {
-	char	c;
-	char	jnk;
+	signal (SIGQUIT, SIG_IGN);
+	signal (SIGINT, msh_error_handler);
+}
 
-	c = '\0';
-	jnk = '\0';
-	if (prompt)
-		cs_putstr_fd(prompt, 1);
-	read (0, &c, 1);
-	if (c)
-		while (jnk != '\n')
-			read (0, &jnk, 1);
-	return (c);
+static void	msh_error_handler(int sig)
+{
+	if (sig == SIGINT)
+	{
+		g_rstatus = 130;
+		ioctl(STDIN_FILENO, TIOCSTI, "\n");
+		rl_replace_line("", 0);
+		rl_on_new_line();
+	}
 }

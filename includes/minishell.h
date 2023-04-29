@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 02:05:18 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/28 20:00:09 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/29 12:01:11 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # endif
 
 // Includes
+# include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/wait.h>
@@ -31,7 +32,6 @@
 # include <string.h>
 # include <signal.h>
 # include <stdlib.h>
-# include <stdio.h>
 # include <fcntl.h>
 # include "libft.h"
 # include <errno.h>
@@ -44,6 +44,12 @@ enum e_io
 };
 
 // Structs & Unions
+typedef struct s_pid
+{
+	int				pid;
+	struct s_pid	*next;
+}					t_pid;
+
 typedef struct s_fd
 {
 	char	*fnm;
@@ -60,11 +66,11 @@ typedef struct s_cmd
 
 typedef struct s_shell
 {
-	char	**argv;
-	char	**envp;
-	t_cmd	*cmd;
-	int		io[2];
-	t_list	*pid;
+	char	**argv; // stack
+	char	**envp; // copia alocada permanente
+	t_cmd	*cmd; // limpa periodicamente
+	t_pid	*pd; // limpa periodicamente
+	int		io[2]; // copia permanente
 }			t_shell;
 
 extern int	g_rstatus;
@@ -72,19 +78,19 @@ extern int	g_rstatus;
 // Main
 int		msh_perror(int ret, char *context, char *msg, ...);
 t_shell	msh_initshell(char **argv, char **envp);
+void	msh_setsignal(void);
 
 // Data
+void	msh_shclean(t_shell *sh); // free shell
+char	**msh_splitclean(char **split); // free split
+
 t_cmd	*msh_cmdnew(t_fd *in, t_fd *out, char **args);
 void	msh_cmdadd_back(t_cmd **cmd, t_cmd *arg);
 void	msh_cmdclean(t_cmd **cmd);
 void	msh_fdclean(t_fd *fd);
-void	msh_splitclean(char ***split);
-void	*msh_calloc(size_t count, size_t size, char *context);
 void	*msh_check_alloc(void *ptr, char *context);
 char	*msh_getenvp(char *key, char **envp);
 char	*msh_getenv_value(char *key, char **envp);
-int		msh_cmdsize(t_cmd *cmd);
-void	msh_cleanshell(t_shell *sh);
 
 // Lexer
 int		msh_lexer(char *line);

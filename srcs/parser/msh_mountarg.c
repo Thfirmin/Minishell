@@ -6,7 +6,7 @@
 /*   By: tde-souz <tde-souz@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 08:51:41 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/28 21:11:05 by tde-souz         ###   ########.fr       */
+/*   Updated: 2023/04/29 00:42:25 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_cmd	*msh_mountarg(char *line, t_shell *sh)
 // Demanded error steps before returning
 static t_cmd	*msh_mountarg_error(t_fd *in, t_fd *out, char **split)
 {
-	msh_splitclean(&split);
+	split = msh_splitclean(split);
 	msh_fdclean(in);
 	msh_fdclean(out);
 	return (0);

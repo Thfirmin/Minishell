@@ -2,24 +2,18 @@
 
 void	test(void)
 {
-	char	*bin;
-	char	*tmp;
-	int		ret;
+	/*int		bytes = 1;
+	int		fd;
+	char	buff[43];
 
-	tmp = cs_get_line("file: ");
-	bin = ft_strtrim(tmp, " \t\n\v\f\r");
-	free (tmp);
-	ret = 0;
-	if (bin)
+	fd = msh_heredoc("ola");
+	while (bytes)
 	{
-		if ((*bin == '.') || (*bin == '/'))
-			ret = access(bin, X_OK);
-		else
-			printf ("builtin or relative path\n");
-		if (ret)
-			perror(bin);
+
+		bytes = read(fd, buff, 42);
+		*(buff + bytes) = 0;
+		printf ("%s", buff);
 	}
-	free (bin);
-	exit(0);
+	exit (0);*/
 }
 

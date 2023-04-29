@@ -6,7 +6,7 @@
 /*   By: tde-souz <tde-souz@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 19:01:57 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/28 22:01:07 by tde-souz         ###   ########.fr       */
+/*   Updated: 2023/04/29 07:41:11 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	msh_fodase1(t_shell *sh, t_cmd *cmd, int *prevpipe, t_list **lst)
 
 	pipe(fd);
 	cpid = fork();
+	(void) lst;
 	if (cpid == 0)
 	{
 		msh_resetsignal();
@@ -37,7 +38,7 @@ void	msh_fodase1(t_shell *sh, t_cmd *cmd, int *prevpipe, t_list **lst)
 	}
 	else
 	{
-		ft_lstadd_back(lst, ft_lstnew(0, cpid));
+		//ft_lstadd_back(lst, ft_lstnew(0, cpid));
 		close (fd[OUT]);
 		close (*prevpipe);
 		*prevpipe = fd[IN];
@@ -73,5 +74,5 @@ static void	msh_router(t_shell *sh, t_cmd *cmd)
 	}
 	close (cmd->fdout.ffd);
 	close (cmd->fdin.ffd);
-	msh_cleanshell(sh);
+	msh_shclean(sh);
 }

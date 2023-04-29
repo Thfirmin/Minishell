@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 16:11:02 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/28 16:33:18 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/29 10:07:44 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*msh_getpathname(char *cmd, char **envp)
 	if (ft_strchr(cmd, '/'))
 	{
 		if (access(cmd, F_OK | X_OK))
-			g_rstatus = msh_perror(127, cmd, 0);
+			g_rstatus = msh_perror(126 + (errno == 2), cmd, 0);
 		else
 			pathname = ft_strdup(cmd);
 	}
@@ -61,7 +61,7 @@ char	*msh_getrelative(char *cmd, char *env)
 		free (aux);
 		aux = 0;
 	}
-	msh_splitclean(&path);
+	path = msh_splitclean(path);
 	if (!aux)
 		g_rstatus = msh_perror(127, cmd, "command not found");
 	return (aux);

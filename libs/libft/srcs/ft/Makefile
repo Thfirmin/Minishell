@@ -6,7 +6,7 @@
 #    By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/06 14:23:56 by thfirmin          #+#    #+#              #
-#    Updated: 2023/04/28 20:03:12 by thfirmin         ###   ########.fr        #
+#    Updated: 2023/04/28 23:53:38 by thfirmin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -105,7 +105,7 @@ FULLER			= \e[7m
 .c.o:
 	$(CC) $(CFLAGS) $(DFLAGS) $(OFLAGS) $(IFLAGS) -c $< $(LFLAGS) -o $(<:.c=.o)
 
-all:	bonus $(NAME)
+all:	$(NAME)
 
 re:	fclean all
 

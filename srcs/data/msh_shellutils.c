@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cs_get_int.c                                       :+:      :+:    :+:   */
+/*   msh_shellutils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/27 10:43:10 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/27 11:15:08 by thfirmin         ###   ########.fr       */
+/*   Created: 2023/04/29 00:00:43 by thfirmin          #+#    #+#             */
+/*   Updated: 2023/04/29 07:35:43 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cs50.h"
+#include "minishell.h"
 
-int	cs_get_int(char *prompt)
+void	msh_shclean(t_shell *sh)
 {
-	int	n;
-
-	if (prompt)
-		cs_putstr_fd(prompt, 1);
-	(void) n;
-	return (0);
+	/* free in envp */
+	close(sh->io[IN]);
+	close(sh->io[OUT]);
+	msh_cmdclean(&sh->cmd);
 }
