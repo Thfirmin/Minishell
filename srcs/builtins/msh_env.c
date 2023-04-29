@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_initshell.c                                    :+:      :+:    :+:   */
+/*   msh_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
+/*   By: llima <llima@student.42.rio>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/26 20:20:05 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/29 13:35:06 by llima            ###   ########.fr       */
+/*   Created: 2023/04/27 14:20:34 by llima             #+#    #+#             */
+/*   Updated: 2023/04/28 20:41:31 by llima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_shell	msh_initshell(char **argv, char **envp)
+void	msh_env(char **args, t_env *env)
 {
-	t_shell	sh;
+	int	i;
 
-	ft_memset(&sh, 0, sizeof(t_shell));
-	sh.argv = argv;
-	msh_init_env(&sh.env, envp);
-	sh.io[IN] = dup(STDIN_FILENO);
-	sh.io[OUT] = dup(STDOUT_FILENO);
-	return (sh);
+	i = 0;
+	(void) args;
+	while (env->var_list[i])
+	{
+		ft_printf("%s\n", env->var_list[i]);
+		i++;
+	}
+	g_rstatus = 0;
 }

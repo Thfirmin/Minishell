@@ -6,7 +6,7 @@
 #    By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/06 14:23:56 by thfirmin          #+#    #+#              #
-#    Updated: 2023/04/29 11:57:13 by thfirmin         ###   ########.fr        #
+#    Updated: 2023/04/29 14:00:42 by llima            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,11 @@ SRC_PTH	= srcs
 OBJ_PTH	= objs
 LIB_PTH	= libs
 INC_PTH	= includes
+ifeq (llima, ${USER})
+	BREW_PTH = .homebrew
+else
+	BREW_PTH = .brew
+endif
 
 SRC_TREE	= $(shell echo $(SRCS) | tr ' ' '\n' | sed "s/[^/]*\.c$$//g" | uniq)
 OBJ_TREE	= $(subst $(SRC_PTH),$(OBJ_PTH),$(SRC_TREE))
@@ -36,8 +41,8 @@ OBJS	= $(subst $(SRC_PTH),$(OBJ_PTH),$(subst .c,.o,$(SRCS)))
 CC			= cc
 
 CFLAGS		= -Wall -Wextra -Werror $(DEBUG)
-LFLAGS		= $(foreach lib, $(LIB_TREE), -L$(LIB_PTH)/$(lib) -l$(subst lib,,$(lib))) -L ~/.brew/opt/readline/lib -lreadline
-IFLAGS		= $(foreach inc, $(INC_TREE), -I$(inc)) $(CPPFLAGS) -I ~/.brew/opt/readline/include
+LFLAGS		= $(foreach lib, $(LIB_TREE), -L$(LIB_PTH)/$(lib) -l$(subst lib,,$(lib))) -L ~/$(BREW_PTH)/opt/readline/lib -lreadline
+IFLAGS		= $(foreach inc, $(INC_TREE), -I$(inc)) $(CPPFLAGS) -I ~/$(BREW_PTH)/opt/readline/include
 MAKEFLAGS	+= --no-print-directory
 ifneq (1,$(LOG))
 	MAKEFLAGS += --silent
@@ -97,7 +102,7 @@ help:
 $(NAME):	$(OBJS)
 ifneq (,$(OBJS))
 	@printf "[${YELLOW}${BOLD}INFO${NULL}] ${UNDLINE}Compiling${NULL} ${NAME}\n" $(REDIR)
-	$(CC) $(CFLAGS) $(DFLAGS) $(OFLAGS) $(OBJS) -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include -lreadline $(LFLAGS) -o $(NAME) 
+	$(CC) $(CFLAGS) $(DFLAGS) $(OFLAGS) $(OBJS) $(IFLAGS) $(LFLAGS) -o $(NAME) 
 	@printf "[${GREEN}${BOLD}INFO${NULL}] ${BOLD}Compiled ${NAME}${NULL}\n" $(REDIR)
 endif
 

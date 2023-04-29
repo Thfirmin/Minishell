@@ -6,7 +6,7 @@
 /*   By: tde-souz <tde-souz@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 19:42:46 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/29 07:41:01 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/29 13:58:35 by llima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ void	msh_router(t_shell *sh, t_cmd *cmd)
 		;
 	else
 	{
-		pathname = msh_getpathname(*cmd->args, sh->envp);
-		execve(pathname, cmd->args, sh->envp);
+		pathname = msh_getpathname(*cmd->args, sh->env->var_list);
+		execve(pathname, cmd->args, sh->env->var_list);
 	}
 	close (cmd->fdout.ffd);
 	close (cmd->fdin.ffd);

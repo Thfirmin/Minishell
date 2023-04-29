@@ -1,22 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_system_call.c                                  :+:      :+:    :+:   */
+/*   msh_arr_srch.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
+/*   By: llima <llima@student.42.rio>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/28 15:30:04 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/28 16:18:52 by thfirmin         ###   ########.fr       */
+/*   Created: 2023/04/24 09:09:26 by llima             #+#    #+#             */
+/*   Updated: 2023/04/24 10:12:17 by llima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	msh_system_call(t_cmd *cmd, t_shell *sh)
+int	msh_arr_srch(char **arr, char *str)
 {
-	char	*pathname;
+	int	i;
+	int	srch_len;
 
-	pathname = msh_getpathname(*cmd->args, sh->envp);
-	printf ("pathname: [%s]\n", pathname);
-	free (pathname);
+	i = 0;
+	srch_len = ft_strlen(str);
+	if (arr && str)
+	{
+		while (arr[i])
+		{
+			if (!ft_strncmp(arr[i], str, srch_len))
+			{
+				if (arr[i][srch_len] == '=')
+					return (i);
+			}
+			i++;
+		}
+	}
+	return (-1);
 }

@@ -6,7 +6,7 @@
 /*   By: tde-souz <tde-souz@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 08:51:41 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/29 00:42:25 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/29 13:39:58 by llima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ static char	**msh_prompt_args(char *line, t_shell *sh)
 	i = 0;
 	while (*(args + i))
 	{
-		expnd = msh_expansion(*(args + i), sh->argv, sh->envp);
+		expnd = msh_expansion(*(args + i), sh->argv, sh->env->var_list);
 		free (*(args + i));
 		if (!expnd)
 		{
