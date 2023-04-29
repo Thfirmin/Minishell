@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_fodase2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
+/*   By: tde-souz <tde-souz@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 19:42:46 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/28 20:58:26 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/28 22:01:12 by tde-souz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	msh_fodase2(t_shell *sh, t_cmd *cmd, int prevpipe, t_list **lst)
 
 	cpid = fork();
 	(void) prevpipe;
-	if (!cpid)
+	if (cpid == 0)
 	{
 		msh_resetsignal();
 		msh_dupfds(cmd->fdout.ffd, STDOUT_FILENO, STDOUT_FILENO);
@@ -36,7 +36,7 @@ void	msh_fodase2(t_shell *sh, t_cmd *cmd, int prevpipe, t_list **lst)
 	}
 	else
 	{
-		ft_lstadd_back(lst, ft_lstnew(&cpid));
+		ft_lstadd_back(lst, ft_lstnew(0, cpid));
 		close (prevpipe);
 		msh_waitpids(lst);
 	}
@@ -67,9 +67,6 @@ void	msh_router(t_shell *sh, t_cmd *cmd)
 	else
 	{
 		pathname = msh_getpathname(*cmd->args, sh->envp);
-		fprintf (stderr, "\n\npatname: [%s]\n\n" ,pathname);
-		for (int i = 0; *(cmd->args + i); i ++)
-			fprintf (stderr, "\n\n[%s]%s" ,*(cmd->args), *(cmd->args + i + 1) ? " " : "\n\n");
 		execve(pathname, cmd->args, sh->envp);
 	}
 	close (cmd->fdout.ffd);
@@ -77,22 +74,37 @@ void	msh_router(t_shell *sh, t_cmd *cmd)
 	msh_cleanshell(sh);
 }
 
+void	ft_free_lst(t_list *lst)
+{
+	// adicionado postumamente
+	t_list	*next;
+
+	if (!lst)
+		return ;
+	while (lst)
+	{
+		next = lst->next;
+		free(lst);
+		lst = next;
+	}
+	lst = 0;
+}
+
 void	msh_waitpids(t_list **lst)
 {
 	t_list	*current_pid;
 	int		c_status;
-	int		port;
 
 	c_status = 0;
 	current_pid = *lst;
 	while (current_pid)
 	{
-		port = *(int *)current_pid->content;
-		waitpid(port, &c_status, 0);
+		waitpid(current_pid->value, &c_status, 0);
 		current_pid = current_pid->next;
 		if (WIFEXITED(c_status))
 			g_rstatus = WEXITSTATUS(c_status);
 		if (WIFSIGNALED(c_status))
 			g_rstatus = 128 + WTERMSIG(c_status);
 	}
+	ft_free_lst(*lst);
 }

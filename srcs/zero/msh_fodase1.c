@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_fodase1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
+/*   By: tde-souz <tde-souz@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 19:01:57 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/28 20:46:26 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/28 22:01:07 by tde-souz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,7 @@ void	msh_fodase1(t_shell *sh, t_cmd *cmd, int *prevpipe, t_list **lst)
 
 	pipe(fd);
 	cpid = fork();
-	if (cpid)
-	{
-		ft_lstadd_back(lst, ft_lstnew(&cpid));
-		close (fd[OUT]);
-		close (*prevpipe);
-		*prevpipe = fd[IN];
-	}
-	else
+	if (cpid == 0)
 	{
 		msh_resetsignal();
 		close (fd[IN]);
@@ -41,6 +34,13 @@ void	msh_fodase1(t_shell *sh, t_cmd *cmd, int *prevpipe, t_list **lst)
 		msh_dupfds(cmd->fdin.ffd, *prevpipe, STDIN_FILENO);
 		close (*prevpipe);
 		msh_router(sh, cmd);
+	}
+	else
+	{
+		ft_lstadd_back(lst, ft_lstnew(0, cpid));
+		close (fd[OUT]);
+		close (*prevpipe);
+		*prevpipe = fd[IN];
 	}
 }
 

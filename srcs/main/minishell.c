@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
+/*   By: tde-souz <tde-souz@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 03:34:40 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/28 20:41:12 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/28 21:50:58 by tde-souz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	main(int argc, char *argv[], char *envp[])
 	{
 		msh_prompt(&sh);
 		msh_executor(&sh);
+		msh_cmdclean(&sh.cmd); // << here
 	}
 	//msh_print(sh.cmd);
 	msh_cleanshell(&sh);
