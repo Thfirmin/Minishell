@@ -6,7 +6,7 @@
 /*   By: tde-souz <tde-souz@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 03:34:40 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/29 12:32:49 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/29 14:19:35 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,7 @@ int	main(int argc, char *argv[], char *envp[])
 		msh_prompt(&sh);
 		msh_executor(&sh);
 		msh_cmdclean(&sh.cmd);
-		/*msh_executor(&sh);
-		msh_cmdclean(&sh.cmd); // << here*/
 	}
-	msh_shclean(&sh);
 	return (0);
 }
 

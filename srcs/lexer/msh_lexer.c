@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 00:53:19 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/29 09:41:14 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/29 20:08:42 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,8 +118,10 @@ static int	msh_lexerror(char c, int n)
 {
 	printf ("aqui %d\n", n);
 	if (!c)
-		g_rstatus = msh_perror(2, "lexer", "syntax error near unexpected token \'newline\'");
+		g_rstatus = msh_perror(2, "lexer", \
+			"syntax error near unexpected token \'newline\'");
 	else
-		g_rstatus = msh_perror(2, "lexer", "syntax error near unexpected token \'%c\'", c);
+		g_rstatus = msh_perror(2, "lexer", \
+			"syntax error near unexpected token \'%c\'", c);
 	return (0);
 }

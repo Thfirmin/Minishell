@@ -6,7 +6,7 @@
 #    By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/06 14:23:56 by thfirmin          #+#    #+#              #
-#    Updated: 2023/04/29 14:00:42 by llima            ###   ########.fr        #
+#    Updated: 2023/04/29 14:44:27 by thfirmin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -126,7 +126,7 @@ endif
 # +>                                     CLEAN
 
 clean:	mclean
-	#$(foreach libs, $(LIB_TREE), make -C $(LIB_PTH)/$(libs) clean;)
+	$(foreach libs, $(LIB_TREE), make -C $(LIB_PTH)/$(libs) clean;)
 
 fclean:	clean
 ifneq (,$(shell ls $(NAME) 2> /dev/null))

@@ -6,17 +6,19 @@
 /*   By: llima <llima@student.42.rio>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 07:04:29 by llima             #+#    #+#             */
-/*   Updated: 2023/04/28 20:39:56 by llima            ###   ########.fr       */
+/*   Updated: 2023/04/29 20:01:28 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 //This function will instead check the string and return if it's valid
-//Check if it's present in the current env before adding to the total new arguments
-//I'll count how many valid arguments there are and transform my arr_cpy so it can take a number to add to te malloc
-//Then I'll use the function again to check for the argumentsn in a way that they gotta be valid and the arr_srch, if valid, will substitute but if not valid, will create a new spot.
-
+//Check if it's present in the current env before adding to the total 
+//new arguments I'll count how many valid arguments there are and transform 
+//my arr_cpy so it can take a number to add to te malloc Then I'll use the 
+//function again to check for the argumentsn in a way that they gotta be 
+//valid and the arr_srch, if valid, will substitute but if not valid, 
+//will create a new spot.
 static void	msh_export_var(char *arg, t_env *env)
 {
 	char	**new_var;
@@ -89,17 +91,3 @@ void	msh_export(char **args, t_env *env)
 			msh_export_var(args[i], env);
 	}	
 }
-
-//[]Check arguments:
-//[] If no arguments, check print format
-//[X] If arguments, check if they are cancerous(What is not allowed?)
-//[] If arguments are valid, check if they already exist.
-//[] Count how many arguments don't exist and create a new array with enough space for them;
-//[] If they exist, update with the arg pointer.
-//[] Returns 0 in most cases, and 1 in errors
-
-//What happens if some arguments are valid and some are not?
-//	It sets what it can, returns an error message and 1 as status
-//It won't get anything after space
-//It REQUIRES an = sign.
-//If you use env names before builtin commands, they work anyways.

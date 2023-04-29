@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:50:01 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/29 14:06:52 by llima            ###   ########.fr       */
+/*   Updated: 2023/04/29 20:07:54 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,66 +17,110 @@
  *	* If is builtin: in one, just call it, in two or more, put in process
  *	* If is command: put in process
  */
-int	msh_confirmio(t_cmd *cmd);
+
+static void	msh_aux_execve_exec(t_shell *sh, t_cmd *cmd);
+
+static void	msh_aux_builtin_exec(t_shell *sh, t_cmd *cmd);
+
+static void	msh_end_exec(int rdpipe, t_cmd *cmd, t_shell *sh, t_pid **lst);
+
+static void	msh_begin_exec(int *rdpipe, t_cmd *cmd, t_shell *sh, t_pid **lst);
 
 void	msh_executor(t_shell *sh)
 {
-	char	*pathname;
-
-	if (!sh->cmd)
-		return ;
-	execute_builtins(sh->cmd->args, sh->env, sh);
-	pathname = msh_getpathname(*sh->cmd->args, sh->env->var_list);
-	execve(pathname, sh->cmd->args, sh->env->var_list);
-
-	/*t_cmd	*cmd;
-	t_list	*node;
-	void	*builtin;
+	t_cmd	*cmd;
+	t_pid	*lst;
+	int		bltn;
 	int		prevpipe;
 
 	if (!sh->cmd)
 		return ;
-	node = 0;
-	cmd = sh->cmd;
-	builtin = msh_isbuiltin(*sh->cmd->args);
-	prevpipe = dup(0);
-	if ((!cmd->next) && (builtin)) // builtin e Commando único 
-		;
-	else // builtin e commandos com pipe
+	bltn = msh_isbuiltin(*sh->cmd->args);
+	if ((!sh->cmd->next) && (bltn))
+		msh_builtin_exec(sh, sh->cmd);
+	else
 	{
+		lst = 0;
+		cmd = sh->cmd;
+		prevpipe = dup(0);
 		while (cmd)
 		{
-			if (msh_confirmio(cmd))
-			{
-				if (cmd->next)
-					msh_fodase1(sh, cmd, &prevpipe, &node); // primeiro e meio 
-				else
-					msh_fodase2(sh, cmd, prevpipe, &node); // ultimo
-			}
+			if (!cmd->next)
+				msh_end_exec(prevpipe, cmd, sh, &lst);
+			else
+				msh_begin_exec(&prevpipe, cmd, sh, &lst);
 			cmd = cmd->next;
 		}
-	}*/
+	}
 }
 
-int	msh_confirmio(t_cmd *cmd)
+static void	msh_begin_exec(int *rdpipe, t_cmd *cmd, t_shell *sh, t_pid **lst)
 {
-	if (cmd->fdout.ffd == -1)
+	int	pid;
+	int	nfd[2];
+
+	pipe(nfd);
+	if (!msh_confirmio(cmd))
 	{
-		access(cmd->fdout.fnm, F_OK | W_OK);
-		g_rstatus = msh_perror(1, cmd->fdout.fnm, 0);
-		return (0);
+		close (*rdpipe);
+		close (nfd[OUT]);
+		*rdpipe = nfd[IN];
+		return ;
 	}
-	else if (cmd->fdin.ffd == -1)
+	pid = fork();
+	if (!pid)
+		msh_so_specific(nfd, rdpipe, cmd, sh);
+	else
 	{
-		access(cmd->fdin.fnm, F_OK | R_OK);
-		g_rstatus = msh_perror(1, cmd->fdin.fnm, 0);
-		return (0);
+		msh_pidadd_back(lst, msh_pidnew(pid));
+		close (nfd[OUT]);
+		close(*rdpipe);
+		*rdpipe = nfd[IN];
 	}
-	return (1);
 }
 
-void	*msh_isbuiltin(char *cmd)
+static void	msh_end_exec(int rdpipe, t_cmd *cmd, t_shell *sh, t_pid **lst)
 {
-	(void) cmd;
-	return (0);
+	int	builtin;
+	int	pid;
+
+	if (!msh_confirmio(cmd))
+		return ;
+	pid = fork();
+	if (!pid)
+	{
+		msh_resetsignal();
+		msh_setfd(sh->io[OUT], &cmd->fdout, STDOUT_FILENO);
+		msh_setfd(rdpipe, &cmd->fdin, STDIN_FILENO);
+		close (rdpipe);
+		builtin = msh_isbuiltin(*cmd->args);
+		if (builtin)
+			msh_aux_builtin_exec(sh, cmd);
+		else
+			msh_aux_execve_exec(sh, cmd);
+	}
+	else
+	{
+		close (rdpipe);
+		msh_pidadd_back(lst, msh_pidnew(pid));
+		if (pid > 0)
+			msh_waitpid(lst);
+	}
+}
+
+static void	msh_aux_builtin_exec(t_shell *sh, t_cmd *cmd)
+{
+	execute_builtins(cmd->args, sh->env, sh);
+	msh_shclean(sh);
+	exit(0);
+}
+
+static void	msh_aux_execve_exec(t_shell *sh, t_cmd *cmd)
+{
+	char	*pathname;
+
+	pathname = msh_getpathname(*cmd->args, sh->env->var_list);
+	if (!pathname)
+		exit(127);
+	execve(pathname, cmd->args, sh->env->var_list);
 }

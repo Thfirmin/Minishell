@@ -6,7 +6,7 @@
 /*   By: llima <llima@student.42.rio>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 14:28:13 by llima             #+#    #+#             */
-/*   Updated: 2023/04/29 13:46:13 by llima            ###   ########.fr       */
+/*   Updated: 2023/04/29 16:38:07 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,36 @@ void	execute_builtins(char **args, t_env *env, t_shell *sh)
 		msh_env(args, env);
 	else if (ft_strncmp(args[0], "exit", 5) == 0)
 		msh_exit(args, env, sh);
+}
+
+void	msh_builtin_exec(t_shell *sh, t_cmd *cmd)
+{
+	if (!msh_confirmio(cmd))
+		return ;
+	msh_setfd(STDIN_FILENO, &cmd->fdin, STDIN_FILENO);
+	msh_setfd(STDOUT_FILENO, &cmd->fdout, STDOUT_FILENO);
+	execute_builtins(cmd->args, sh->env, sh);
+	dup2(sh->io[IN], STDIN_FILENO);
+	dup2(sh->io[OUT], STDOUT_FILENO);
+}
+
+int	msh_isbuiltin(char *cmd)
+{
+	int			i;
+	const char	*bltn[] = {
+		"echo",
+		"cd",
+		"pwd",
+		"export",
+		"unset",
+		"env",
+		"exit",
+		0
+	};
+
+	i = -1;
+	while (*(bltn + ++i))
+		if (!ft_strncmp(*(bltn + i), cmd, ft_strlen(*(bltn + i))))
+			return (1);
+	return (0);
 }

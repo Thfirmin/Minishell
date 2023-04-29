@@ -6,7 +6,7 @@
 #    By: thfirmin <thiagofirmino2001@gmail.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/11 21:07:07 by thfirmin          #+#    #+#              #
-#    Updated: 2023/04/27 11:48:29 by thfirmin         ###   ########.fr        #
+#    Updated: 2023/04/29 14:41:55 by thfirmin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,7 +69,7 @@ $(SRCS):
 	@if [ "$@" = "$(firstword $(SRCS))" ]; then \
 		printf "[${YELLOW}${BOLD}INFO${NULL}] ${UNDINE}Compiling${NULL} ${NAME} library\n" $(REDIR); \
 	fi
-	make -C $(PTH_SRC)$@ && sleep 0.5
+	make -C $(PTH_SRC)$@ && sleep 1
 	@if [ "$@" = "$(lastword $(SRCS))" ]; then \
 		printf "[${GREEN}${BOLD}INFO${NULL}] ${NAME} library ${BOLD}Compiled${NULL}\n" $(REDIR); \
 	fi

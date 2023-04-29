@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 02:05:18 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/29 13:45:09 by llima            ###   ########.fr       */
+/*   Updated: 2023/04/29 20:06:19 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,12 @@ typedef struct s_env
 
 typedef struct s_shell
 {
-	char	**argv; // stack
-	t_cmd	*cmd; // limpa periodicamente
-	t_pid	*pd; // limpa periodicamente
-	int		io[2]; // copia permanente
-	t_env	*env; //copia alocada
+	char	**argv;
+	t_cmd	*cmd;
+	t_pid	*pd;
+	int		io[2];
+	t_env	*env;
 }			t_shell;
-
 
 // Main
 int				msh_perror(int ret, char *context, char *msg, ...);
@@ -89,8 +88,11 @@ t_shell			msh_initshell(char **argv, char **envp);
 void			msh_setsignal(void);
 
 // Data
-void			msh_shclean(t_shell *sh); // free shell
-char			**msh_splitclean(char **split); // free split
+void			msh_shclean(t_shell *sh);
+char			**msh_splitclean(char **split);
+t_pid			*msh_pidnew(int pid);
+void			msh_pidadd_back(t_pid **pid, t_pid *node);
+void			msh_pidclear(t_pid **pid);
 
 t_cmd			*msh_cmdnew(t_fd *in, t_fd *out, char **args);
 void			msh_cmdadd_back(t_cmd **cmd, t_cmd *arg);
@@ -127,13 +129,13 @@ int				msh_isolate(char **src, char **var);
 // Executor
 void			msh_executor(t_shell *sh);
 char			*msh_getpathname(char *cmd, char **envp);
-void			msh_system_call(t_cmd *cmd, t_shell *sh);
-
-void			*msh_isbuiltin(char *cmd);
-void			msh_fodase1(t_shell *sh, t_cmd *cmd, int *prevpipe, t_list **lst);
-void			msh_fodase2(t_shell *sh, t_cmd *cmd, int prevpipe, t_list **lst);
-
-void			test(void);
+int				msh_isbuiltin(char *cmd);
+void			msh_builtin_exec(t_shell *sh, t_cmd *cmd);
+int				msh_confirmio(t_cmd *cmd);
+void			msh_setfd(int fd, t_fd *file, int std);
+void			msh_waitpid(t_pid **pid);
+void			msh_resetsignal(void);
+void			msh_so_specific(int nfd[2], int *rdpe, t_cmd *cmd, t_shell *sh);
 
 // Env && Arrray Manipulation
 int				msh_arr_size(char **arr);

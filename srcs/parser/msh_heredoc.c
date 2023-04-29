@@ -6,11 +6,13 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 22:21:26 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/29 12:24:45 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/29 20:12:57 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	msh_return_heredoc(int fd[2]);
 
 int	msh_heredoc(char *eof)
 {
@@ -29,19 +31,20 @@ int	msh_heredoc(char *eof)
 		{
 			msh_perror(0, "warning", \
 				"here-document delimited by end-of-file (wanted \'%s\')", eof);
-			close (fd[1]);
-			return (fd[0]);
+			return (msh_return_heredoc(fd));
 		}
 		if (!ft_strncmp(eof, line, ft_strlen(eof) + 1))
 			break ;
 		else
-		{
-			write (fd[1], line, ft_strlen(line));
-			write (fd[1], "\n", 1);
-			free (line);
-		}
+			ft_putendl_fd(line, fd[OUT]);
+		free (line);
 	}
 	free (line);
-	close(fd[1]);
-	return (fd[0]);
+	return (msh_return_heredoc(fd));
+}
+
+static int	msh_return_heredoc(int fd[2])
+{
+	close (fd[OUT]);
+	return (fd[IN]);
 }

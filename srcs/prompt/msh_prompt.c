@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 13:18:23 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/29 13:38:19 by llima            ###   ########.fr       */
+/*   Updated: 2023/04/29 15:01:01 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	msh_prompt(t_shell *sh)
 	prompt = readline(ps1);
 	free (ps1);
 	if (!prompt)
-		exit (0); // exit
+		msh_exit(0, sh->env, sh);
 	if (msh_lexer(prompt))
 		msh_parser(prompt, sh);
 	ptr = prompt;

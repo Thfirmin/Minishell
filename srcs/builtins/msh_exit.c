@@ -6,7 +6,7 @@
 /*   By: llima <llima@student.42.rio>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:24:35 by llima             #+#    #+#             */
-/*   Updated: 2023/04/29 13:30:14 by llima            ###   ########.fr       */
+/*   Updated: 2023/04/29 19:59:09 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ void	msh_exit(char **args, t_env *env, t_shell *sh)
 		ft_printf("exit: too many arguments\n");
 		return ;
 	}
-//	Add the frees to function here	
 	msh_end(env, sh);
 	exit(g_rstatus);
 }
