@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 02:05:18 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/29 20:06:19 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/29 20:16:08 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,8 @@ void			msh_setfd(int fd, t_fd *file, int std);
 void			msh_waitpid(t_pid **pid);
 void			msh_resetsignal(void);
 void			msh_so_specific(int nfd[2], int *rdpe, t_cmd *cmd, t_shell *sh);
+void			msh_aux_execve_exec(t_shell *sh, t_cmd *cmd);
+void			msh_aux_builtin_exec(t_shell *sh, t_cmd *cmd);
 
 // Env && Arrray Manipulation
 int				msh_arr_size(char **arr);
