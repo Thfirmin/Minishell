@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 10:42:48 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/21 23:39:06 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/28 20:07:44 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	msh_splitclean(char ***split)
 	char	**aux;
 
 	i = -1;
-	if (!*split)
+	if (!split || !*split)
 		return ;
 	aux = *split;
 	while (*(aux + ++i))

@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 10:19:36 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/23 11:33:46 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/28 16:22:35 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ static void	msh_initmsg(char *sh, char *context, char *msg)
 	ft_putstr_fd(sh, 2);
 	if (context && *context)
 	{
-		ft_putchar_fd(':', 1);
+		ft_putstr_fd(": ", 1);
 		if (msg)
 			ft_putstr_fd(context, 1);
 	}
 	if (msg && *msg)
-		ft_putchar_fd(':', 1);
+		ft_putstr_fd(": ", 1);
 }

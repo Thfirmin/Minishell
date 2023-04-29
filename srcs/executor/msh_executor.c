@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:50:01 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/28 14:31:19 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/28 20:51:44 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,38 +17,45 @@
  *	* If is builtin: in one, just call it, in two or more, put in process
  *	* If is command: put in process
  */
-void	msh_exec_step(t_cmd *cmd, short bin);
+static int	msh_confirmio(t_cmd *cmd);
 
 void	msh_executor(t_shell *sh)
 {
 	t_cmd	*cmd;
-	int		size;
-	short	step;
+	t_list	*node;
+	void	*builtin;
+	int		prevpipe;
 
+	node = 0;
 	cmd = sh->cmd;
-	size = msh_cmdsize(cmd);
-	step = 0;
-	while (cmd)
+	builtin = msh_isbuiltin(*sh->cmd->args);
+	prevpipe = dup(0);
+	if ((!cmd->next) && (builtin)) /* builtin e Commando único */
+		;
+	else // builtin e commandos com pipe
 	{
-		if (!bin && !cmd->next)
-			msh
-		msh_exec_step(cmd, step);
-		cmd = cmd->next;
-		step = 1;
+		while (cmd)
+		{
+			if (msh_confirmio(cmd))
+			{
+				if (cmd->next)
+					msh_fodase1(sh, cmd, &prevpipe, &node); /* primeiro e meio */
+				else
+					msh_fodase2(sh, cmd, prevpipe, &node); /* ultimo */
+			}
+			cmd = cmd->next;
+		}
 	}
 }
 
-void	msh_exec_step(t_cmd *cmd, short bin)
+static int	msh_confirmio(t_cmd *cmd)
 {
-	if (!bin)
-	{
-		if (!cmd->next)
-			printf ("[%s] i'm the unique command", *cmd->args);
-		else
-			printf ("[%s] i'm the first command\n", *cmd->args);
-	}
-	else if (!cmd->next)
-		printf ("[%s] i'm the last command\n", *cmd->args);
-	else
-		printf ("[%s] i'm the middle command\n", *cmd->args);
+	(void) cmd;
+	return (1);
+}
+
+void	*msh_isbuiltin(char *cmd)
+{
+	(void) cmd;
+	return (0);
 }

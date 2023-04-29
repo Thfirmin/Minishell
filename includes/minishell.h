@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 02:05:18 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/28 14:06:10 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/28 20:00:09 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ typedef struct s_shell
 	char	**argv;
 	char	**envp;
 	t_cmd	*cmd;
+	int		io[2];
+	t_list	*pid;
 }			t_shell;
 
 extern int	g_rstatus;
@@ -82,6 +84,7 @@ void	*msh_check_alloc(void *ptr, char *context);
 char	*msh_getenvp(char *key, char **envp);
 char	*msh_getenv_value(char *key, char **envp);
 int		msh_cmdsize(t_cmd *cmd);
+void	msh_cleanshell(t_shell *sh);
 
 // Lexer
 int		msh_lexer(char *line);
@@ -109,6 +112,12 @@ int		msh_isolate(char **src, char **var);
 
 // Executor
 void	msh_executor(t_shell *sh);
+char	*msh_getpathname(char *cmd, char **envp);
+void	msh_system_call(t_cmd *cmd, t_shell *sh);
+
+void	*msh_isbuiltin(char *cmd);
+void	msh_fodase1(t_shell *sh, t_cmd *cmd, int *prevpipe, t_list **lst);
+void	msh_fodase2(t_shell *sh, t_cmd *cmd, int prevpipe, t_list **lst);
 
 void	test(void);
 
