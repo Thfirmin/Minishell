@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_initshell.c                                    :+:      :+:    :+:   */
+/*   msh_arr_size.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
+/*   By: llima <llima@student.42.rio>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/26 20:20:05 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/29 13:35:06 by llima            ###   ########.fr       */
+/*   Created: 2023/04/23 19:50:05 by llima             #+#    #+#             */
+/*   Updated: 2023/04/24 08:14:51 by llima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_shell	msh_initshell(char **argv, char **envp)
+int	msh_arr_size(char **arr)
 {
-	t_shell	sh;
+	int	i;
 
-	ft_memset(&sh, 0, sizeof(t_shell));
-	sh.argv = argv;
-	msh_init_env(&sh.env, envp);
-	sh.io[IN] = dup(STDIN_FILENO);
-	sh.io[OUT] = dup(STDOUT_FILENO);
-	return (sh);
+	i = 0;
+	if (arr)
+	{
+		while (arr[i])
+			i++;
+	}
+	return (i);
 }

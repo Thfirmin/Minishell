@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:50:01 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/29 12:56:15 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/29 14:06:52 by llima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@ void	msh_executor(t_shell *sh)
 
 	if (!sh->cmd)
 		return ;
-	pathname = msh_getpathname(*sh->cmd->args, sh->envp);
-	execve(pathname, sh->cmd->args, sh->envp);
+	execute_builtins(sh->cmd->args, sh->env, sh);
+	pathname = msh_getpathname(*sh->cmd->args, sh->env->var_list);
+	execve(pathname, sh->cmd->args, sh->env->var_list);
 
 	/*t_cmd	*cmd;
 	t_list	*node;

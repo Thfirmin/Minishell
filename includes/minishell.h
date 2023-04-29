@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 02:05:18 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/29 12:01:11 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/29 13:45:09 by llima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@
 # include "libft.h"
 # include <errno.h>
 
+//Global var.
+extern int	g_rstatus;
+
 // Enums
 enum e_io
 {
@@ -64,67 +67,91 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }					t_cmd;
 
+typedef struct s_env
+{
+	char	**var_list;
+	char	*pwd;
+}			t_env;
+
 typedef struct s_shell
 {
 	char	**argv; // stack
-	char	**envp; // copia alocada permanente
 	t_cmd	*cmd; // limpa periodicamente
 	t_pid	*pd; // limpa periodicamente
 	int		io[2]; // copia permanente
+	t_env	*env; //copia alocada
 }			t_shell;
 
-extern int	g_rstatus;
 
 // Main
-int		msh_perror(int ret, char *context, char *msg, ...);
-t_shell	msh_initshell(char **argv, char **envp);
-void	msh_setsignal(void);
+int				msh_perror(int ret, char *context, char *msg, ...);
+t_shell			msh_initshell(char **argv, char **envp);
+void			msh_setsignal(void);
 
 // Data
-void	msh_shclean(t_shell *sh); // free shell
-char	**msh_splitclean(char **split); // free split
+void			msh_shclean(t_shell *sh); // free shell
+char			**msh_splitclean(char **split); // free split
 
-t_cmd	*msh_cmdnew(t_fd *in, t_fd *out, char **args);
-void	msh_cmdadd_back(t_cmd **cmd, t_cmd *arg);
-void	msh_cmdclean(t_cmd **cmd);
-void	msh_fdclean(t_fd *fd);
-void	*msh_check_alloc(void *ptr, char *context);
-char	*msh_getenvp(char *key, char **envp);
-char	*msh_getenv_value(char *key, char **envp);
+t_cmd			*msh_cmdnew(t_fd *in, t_fd *out, char **args);
+void			msh_cmdadd_back(t_cmd **cmd, t_cmd *arg);
+void			msh_cmdclean(t_cmd **cmd);
+void			msh_fdclean(t_fd *fd);
+void			*msh_check_alloc(void *ptr, char *context);
+char			*msh_getenvp(char *key, char **envp);
+char			*msh_getenv_value(char *key, char **envp);
 
 // Lexer
-int		msh_lexer(char *line);
+int				msh_lexer(char *line);
 
 // Parser
-void	msh_parser(char *line, t_shell *sh);
-t_cmd	*msh_mountarg(char *line, t_shell *sh);
-char	**msh_prompt_split(char *line, const char *set);
-int		msh_heredoc(char *eof);
-int		msh_setredir(char *str, t_fd *io, t_shell *sh);
-int		msh_skipquote(char *str);
+void			msh_parser(char *line, t_shell *sh);
+t_cmd			*msh_mountarg(char *line, t_shell *sh);
+char			**msh_prompt_split(char *line, const char *set);
+int				msh_heredoc(char *eof);
+int				msh_setredir(char *str, t_fd *io, t_shell *sh);
+int				msh_skipquote(char *str);
 
 // Prompt
-void	msh_prompt(t_shell *sh);
+void			msh_prompt(t_shell *sh);
 
 // Expansion
-char	*msh_expansion(char *line, char **argv, char **envp);
-char	*msh_expnd_dquote(char **line, char **argv, char **envp);
-char	*msh_expnd_env(char **line, char **argv, char **envp);
-char	*msh_expnd_squote(char **line);
-char	*msh_expnd_txt(char **line, char *eofs);
-char	*msh_unify(char *s1, char *s2);
-char	*msh_strunify(char *s1, char *s2);
-int		msh_isolate(char **src, char **var);
+char			*msh_expansion(char *line, char **argv, char **envp);
+char			*msh_expnd_dquote(char **line, char **argv, char **envp);
+char			*msh_expnd_env(char **line, char **argv, char **envp);
+char			*msh_expnd_squote(char **line);
+char			*msh_expnd_txt(char **line, char *eofs);
+char			*msh_unify(char *s1, char *s2);
+char			*msh_strunify(char *s1, char *s2);
+int				msh_isolate(char **src, char **var);
 
 // Executor
-void	msh_executor(t_shell *sh);
-char	*msh_getpathname(char *cmd, char **envp);
-void	msh_system_call(t_cmd *cmd, t_shell *sh);
+void			msh_executor(t_shell *sh);
+char			*msh_getpathname(char *cmd, char **envp);
+void			msh_system_call(t_cmd *cmd, t_shell *sh);
 
-void	*msh_isbuiltin(char *cmd);
-void	msh_fodase1(t_shell *sh, t_cmd *cmd, int *prevpipe, t_list **lst);
-void	msh_fodase2(t_shell *sh, t_cmd *cmd, int prevpipe, t_list **lst);
+void			*msh_isbuiltin(char *cmd);
+void			msh_fodase1(t_shell *sh, t_cmd *cmd, int *prevpipe, t_list **lst);
+void			msh_fodase2(t_shell *sh, t_cmd *cmd, int prevpipe, t_list **lst);
 
-void	test(void);
+void			test(void);
+
+// Env && Arrray Manipulation
+int				msh_arr_size(char **arr);
+char			**msh_arr_cpy(char **arr, int size);
+void			msh_arr_free(char **arr);
+int				msh_arr_srch(char **arr, char *str);
+char			*msh_find_env(char **env, char *str);
+void			msh_init_env(t_env **env, char **envp);
+long long int	ft_atolli(const char *str);
+
+// Builtins
+void			execute_builtins(char **args, t_env *env, t_shell *sh);
+void			msh_echo(char **args);
+void			msh_cd(char **args, t_env *env);
+void			msh_pwd(char **args, t_env *env);
+void			msh_export(char **args, t_env *env);
+void			msh_unset(char **args, t_env *env);
+void			msh_env(char **args, t_env *env);
+void			msh_exit(char **args, t_env *env, t_shell *sh);
 
 #endif

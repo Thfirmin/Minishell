@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 13:18:23 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/29 09:31:10 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/29 13:38:19 by llima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	msh_prompt(t_shell *sh)
 	char		*prompt;
 	char		*ptr;
 
-	ps1 = msh_setps1(sh->envp);
+	ps1 = msh_setps1(sh->env->var_list);
 	if (!ps1)
 		return ;
 	prompt = readline(ps1);
