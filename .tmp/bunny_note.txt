@@ -1,0 +1,64 @@
+
+# msh_cd
+//[X]Check for number of arguments
+//[X]Check if path is empty
+//[X]	-Check if home is set
+//[X]Check if path is valid
+//[X]In case of successfully changing dir:
+//[X]	-Set OLDPWD to current dir
+//[X]	-Set PWD to new dir.
+//[X]Check possible chdir and getcwd errors?
+//		-Some appear when deleting dirs
+//[]Not a directory error?
+//cd with broken paths updates PWD and OLDPWD
+//(And it also adds the new path you tried to access)
+//cd updates the PWD and OLDPWD envs if they exist, but uses the path given as pwd if it works
+
+//Use getcwd to check the path beforehand? And then update accordingly
+//I think chdir uses relative path, starting where you are, while getcwd uses absolute path.
+//I think it updates the readline thing for the prompt
+
+// 	Gotta test if pwd gets new_path or path. I'm guessin the first one, since pwd has to display a full path. If it's the second, gotta free new_path.
+//static void	msh_follow_path(char *path)
+//{
+//	msh_case_paths(path, env);
+//	if (g_rstatus)
+//		return ;
+//	else if (chdir(path))
+//	{
+//		ft_printf("cd: %s: No such file or directory\n", path);
+//		g_rstatus = 1;
+//		return ;
+//	}
+//}
+
+//Gotta test this to check if it actually receives path or getcwd path
+
+# Export
+
+//[]Check arguments:
+//[] If no arguments, check print format
+//[X] If arguments, check if they are cancerous(What is not allowed?)
+//[] If arguments are valid, check if they already exist.
+//[] Count how many arguments don't exist and create a new array with enough space for them;
+//[] If they exist, update with the arg pointer.
+//[] Returns 0 in most cases, and 1 in errors
+
+//What happens if some arguments are valid and some are not?
+//	It sets what it can, returns an error message and 1 as status
+//It won't get anything after space
+//It REQUIRES an = sign.
+//If you use env names before builtin commands, they work anyways.
+
+# pwd
+
+//[]Get PWD from env (Not getcwd)
+// It doesn't. It updates with cd but it's saved somewhere else.
+//[X]Should not take arguments
+//	They don't seem to make a difference, anyway
+//[X]What if the variable is unset?
+//	Doesn't interfere with anything
+//[]What if there isn't a path to PWD?
+//When you export a PWD, it changes to that directory, even if it doesn't exist(?)
+//But then pwd shows you the last directory you were in
+//Maybe it gets the path that cd tries to access?

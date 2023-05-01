@@ -6,7 +6,7 @@
 #    By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/06 14:23:56 by thfirmin          #+#    #+#              #
-#    Updated: 2023/04/16 01:37:15 by thfirmin         ###   ########.fr        #
+#    Updated: 2023/04/29 14:44:27 by thfirmin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,11 @@ SRC_PTH	= srcs
 OBJ_PTH	= objs
 LIB_PTH	= libs
 INC_PTH	= includes
+ifeq (llima, ${USER})
+	BREW_PTH = .homebrew
+else
+	BREW_PTH = .brew
+endif
 
 SRC_TREE	= $(shell echo $(SRCS) | tr ' ' '\n' | sed "s/[^/]*\.c$$//g" | uniq)
 OBJ_TREE	= $(subst $(SRC_PTH),$(OBJ_PTH),$(SRC_TREE))
@@ -33,12 +38,11 @@ SRCS	= $(shell find $(SRC_PTH) -type f 2> /dev/null | tr ' ' '\n' | grep \\.c$$)
 OBJS	= $(subst $(SRC_PTH),$(OBJ_PTH),$(subst .c,.o,$(SRCS)))
 # <+-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-' #
 # +>                                    ALIASES
-
 CC			= cc
 
 CFLAGS		= -Wall -Wextra -Werror $(DEBUG)
-LFLAGS		= $(foreach lib, $(LIB_TREE), -L$(LIB_PTH)/$(lib) -l$(subst lib,,$(lib))) -lreadline
-IFLAGS		= $(foreach inc, $(INC_TREE), -I$(inc))
+LFLAGS		= $(foreach lib, $(LIB_TREE), -L$(LIB_PTH)/$(lib) -l$(subst lib,,$(lib))) -L ~/$(BREW_PTH)/opt/readline/lib -lreadline
+IFLAGS		= $(foreach inc, $(INC_TREE), -I$(inc)) $(CPPFLAGS) -I ~/$(BREW_PTH)/opt/readline/include
 MAKEFLAGS	+= --no-print-directory
 ifneq (1,$(LOG))
 	MAKEFLAGS += --silent
@@ -98,7 +102,7 @@ help:
 $(NAME):	$(OBJS)
 ifneq (,$(OBJS))
 	@printf "[${YELLOW}${BOLD}INFO${NULL}] ${UNDLINE}Compiling${NULL} ${NAME}\n" $(REDIR)
-	$(CC) $(CFLAGS) $(DFLAGS) $(OFLAGS) $(OBJS) $(LFLAGS) -o $(NAME)
+	$(CC) $(CFLAGS) $(DFLAGS) $(OFLAGS) $(OBJS) $(IFLAGS) $(LFLAGS) -o $(NAME) 
 	@printf "[${GREEN}${BOLD}INFO${NULL}] ${BOLD}Compiled ${NAME}${NULL}\n" $(REDIR)
 endif
 
@@ -125,11 +129,11 @@ clean:	mclean
 	$(foreach libs, $(LIB_TREE), make -C $(LIB_PTH)/$(libs) clean;)
 
 fclean:	clean
-	$(foreach libs, $(LIB_TREE), make -C $(LIB_PTH)/$(libs) fclean;)
 ifneq (,$(shell ls $(NAME) 2> /dev/null))
 	@printf "[${YELLOW}${BOLD}INFO${NULL}] ${UNDLINE}Deleting${NULL} ${NAME} library\n" $(REDIR)
 	rm -rf $(NAME)
 	@printf "[${RED}${BOLD}INFO${NULL}] ${BOLD}Deleted ${NAME} library${NULL}\n" $(REDIR)
 endif
+	#$(foreach libs, $(LIB_TREE), make -C $(LIB_PTH)/$(libs) fclean;)
 # <+-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-' #
 # vim: fdm=marker fmr=+>,<+ ts=4 sw=4 nofen noet:

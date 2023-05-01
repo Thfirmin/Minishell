@@ -1,28 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
+/*   msh_shellutils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tde-souz <tde-souz@student.42.rio>         +#+  +:+       +#+        */
+/*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/06 14:54:49 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/28 22:03:33 by tde-souz         ###   ########.fr       */
+/*   Created: 2023/04/29 00:00:43 by thfirmin          #+#    #+#             */
+/*   Updated: 2023/04/29 20:03:05 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-//  Add a node at the end of a list
-void	ft_lstadd_back(t_list **lst, t_list *new)
+void	msh_shclean(t_shell *sh)
 {
-	t_list	*node;
-
-	node = *lst;
-	if (node)
-		while (node->next)
-			node = node->next;
-	if (!node)
-		*lst = new;
-	else
-		node->next = new;
+	close(sh->io[IN]);
+	close(sh->io[OUT]);
+	msh_cmdclean(&sh->cmd);
 }

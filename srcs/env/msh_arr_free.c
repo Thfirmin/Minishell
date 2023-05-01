@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
+/*   msh_arr_free.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tde-souz <tde-souz@student.42.rio>         +#+  +:+       +#+        */
+/*   By: llima <llima@student.42.rio>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/06 14:54:49 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/28 22:03:33 by tde-souz         ###   ########.fr       */
+/*   Created: 2023/04/24 07:52:35 by llima             #+#    #+#             */
+/*   Updated: 2023/04/24 08:09:01 by llima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-//  Add a node at the end of a list
-void	ft_lstadd_back(t_list **lst, t_list *new)
+void	msh_arr_free(char **arr)
 {
-	t_list	*node;
+	int	i;
 
-	node = *lst;
-	if (node)
-		while (node->next)
-			node = node->next;
-	if (!node)
-		*lst = new;
-	else
-		node->next = new;
+	i = 0;
+	if (arr)
+	{
+		while (arr[i])
+		{
+			free(arr[i]);
+			i++;
+		}
+	}
+	free(arr);
 }

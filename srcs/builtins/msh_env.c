@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
+/*   msh_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tde-souz <tde-souz@student.42.rio>         +#+  +:+       +#+        */
+/*   By: llima <llima@student.42.rio>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/06 14:54:49 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/28 22:03:33 by tde-souz         ###   ########.fr       */
+/*   Created: 2023/04/27 14:20:34 by llima             #+#    #+#             */
+/*   Updated: 2023/04/28 20:41:31 by llima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-//  Add a node at the end of a list
-void	ft_lstadd_back(t_list **lst, t_list *new)
+void	msh_env(char **args, t_env *env)
 {
-	t_list	*node;
+	int	i;
 
-	node = *lst;
-	if (node)
-		while (node->next)
-			node = node->next;
-	if (!node)
-		*lst = new;
-	else
-		node->next = new;
+	i = 0;
+	(void) args;
+	while (env->var_list[i])
+	{
+		ft_printf("%s\n", env->var_list[i]);
+		i++;
+	}
+	g_rstatus = 0;
 }

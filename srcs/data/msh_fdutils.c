@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
+/*   msh_fdutils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tde-souz <tde-souz@student.42.rio>         +#+  +:+       +#+        */
+/*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/06 14:54:49 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/28 22:03:33 by tde-souz         ###   ########.fr       */
+/*   Created: 2023/04/20 10:42:48 by thfirmin          #+#    #+#             */
+/*   Updated: 2023/04/29 00:28:46 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-//  Add a node at the end of a list
-void	ft_lstadd_back(t_list **lst, t_list *new)
+void	msh_fdclean(t_fd *fd)
 {
-	t_list	*node;
-
-	node = *lst;
-	if (node)
-		while (node->next)
-			node = node->next;
-	if (!node)
-		*lst = new;
-	else
-		node->next = new;
+	if (!fd)
+		return ;
+	if ((fd->ffd != -1) && (fd->ffd != -2))
+	{
+		close(fd->ffd);
+		fd->ffd = -2;
+	}
+	if (fd->fnm)
+	{
+		free (fd->fnm);
+		fd->fnm = 0;
+	}
 }

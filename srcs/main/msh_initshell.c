@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
+/*   msh_initshell.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tde-souz <tde-souz@student.42.rio>         +#+  +:+       +#+        */
+/*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/06 14:54:49 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/28 22:03:33 by tde-souz         ###   ########.fr       */
+/*   Created: 2023/04/26 20:20:05 by thfirmin          #+#    #+#             */
+/*   Updated: 2023/04/29 13:35:06 by llima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-//  Add a node at the end of a list
-void	ft_lstadd_back(t_list **lst, t_list *new)
+t_shell	msh_initshell(char **argv, char **envp)
 {
-	t_list	*node;
+	t_shell	sh;
 
-	node = *lst;
-	if (node)
-		while (node->next)
-			node = node->next;
-	if (!node)
-		*lst = new;
-	else
-		node->next = new;
+	ft_memset(&sh, 0, sizeof(t_shell));
+	sh.argv = argv;
+	msh_init_env(&sh.env, envp);
+	sh.io[IN] = dup(STDIN_FILENO);
+	sh.io[OUT] = dup(STDOUT_FILENO);
+	return (sh);
 }

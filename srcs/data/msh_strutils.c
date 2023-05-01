@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew_bonus.c                                  :+:      :+:    :+:   */
+/*   msh_strutils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tde-souz <tde-souz@student.42.rio>         +#+  +:+       +#+        */
+/*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/06 15:06:19 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/28 21:37:02 by tde-souz         ###   ########.fr       */
+/*   Created: 2023/04/29 00:24:26 by thfirmin          #+#    #+#             */
+/*   Updated: 2023/04/29 00:25:39 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-// Create a new node
-t_list	*ft_lstnew(void *content, int value)
+char	**msh_splitclean(char **split)
 {
-	t_list	*node;
+	int	i;
 
-	node = malloc (sizeof(t_list));
-	if (!node)
+	if (!split)
 		return (0);
-	(*node).content = content;
-	(*node).value = value;
-	(*node).next = (void *)0;
-	return (node);
+	i = -1;
+	while (*(split + ++i))
+		free (*(split + i));
+	free (split);
+	return (0);
 }

@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew_bonus.c                                  :+:      :+:    :+:   */
+/*   msh_expnd_txt.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tde-souz <tde-souz@student.42.rio>         +#+  +:+       +#+        */
+/*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/06 15:06:19 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/28 21:37:02 by tde-souz         ###   ########.fr       */
+/*   Created: 2023/04/25 16:25:25 by thfirmin          #+#    #+#             */
+/*   Updated: 2023/04/27 17:14:00 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-// Create a new node
-t_list	*ft_lstnew(void *content, int value)
+char	*msh_expnd_txt(char **line, char *eofs)
 {
-	t_list	*node;
+	char	*str;
+	int		i;
 
-	node = malloc (sizeof(t_list));
-	if (!node)
+	if (!line)
 		return (0);
-	(*node).content = content;
-	(*node).value = value;
-	(*node).next = (void *)0;
-	return (node);
+	i = 0;
+	while (*(*line + i) && !ft_strchr(eofs, *(*line + i)))
+		i ++;
+	str = ft_substr(*line, 0, i);
+	*line += i;
+	return (str);
 }
