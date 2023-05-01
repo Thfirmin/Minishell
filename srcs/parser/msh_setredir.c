@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:47:33 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/28 00:21:07 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/29 13:40:48 by llima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ static char	*msh_setfile(char *str, t_shell *sh)
 		while (*(str + i) && !ft_strchr("<>| \t\n\v\r\f", *(str + i)))
 			i ++;
 	tmp = ft_substr(str, 0, i);
-	file = msh_expansion(tmp, sh->argv, sh->envp);
+	file = msh_expansion(tmp, sh->argv, sh->env->var_list);
 	free (tmp);
 	return (msh_check_alloc(file, "setfile"));
 }

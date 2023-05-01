@@ -3,28 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
+/*   By: tde-souz <tde-souz@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 03:34:40 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/28 00:04:35 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/29 14:19:35 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*tf_readline(char *prompt);
+int	g_rstatus = 0;
 
-void	msh_print(t_cmd *cmd);
+char	*tf_readline(char *prompt);
 
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_shell	sh;
 
 	sh = msh_initshell(argv, envp);
+	msh_setsignal();
 	(void) argc;
-	msh_prompt(&sh);
-	msh_print(sh.cmd);
-	msh_cmdclean(&sh.cmd);
+	while (1)
+	{
+		msh_prompt(&sh);
+		msh_executor(&sh);
+		msh_cmdclean(&sh.cmd);
+	}
 	return (0);
 }
 
@@ -53,31 +57,4 @@ char	*tf_readline(char *prompt)
 	free (line);
 	free (buff);
 	return (tmp);
-}
-
-void	msh_print(t_cmd *cmd)
-{
-	int	i;
-	int	aux;
-
-	i = 0;
-	while (cmd)
-	{
-		aux = -1;
-		printf ("\n");
-		printf ("cmd[%d]: %p\n", i, cmd);
-		printf ("\tfdin: [%s](%d)\n", cmd->fdin.fnm, cmd->fdin.ffd);
-		printf ("\tfdout: [%s](%d)\n", cmd->fdout.fnm, cmd->fdout.ffd);
-		if (cmd->args)
-		{
-			printf ("\t");
-			while (*(cmd->args + ++aux))
-				printf ("[%s] ", *(cmd->args + aux));
-			printf ("[%s]\n", *(cmd->args + aux));
-		}
-		else
-			printf ("\t(%p)\n", cmd->args);
-		cmd = cmd->next;
-		i ++;
-	}
 }

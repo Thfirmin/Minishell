@@ -1,26 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_calloc.c                                       :+:      :+:    :+:   */
+/*   msh_arr_srch.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
+/*   By: llima <llima@student.42.rio>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/23 11:19:17 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/23 11:22:01 by thfirmin         ###   ########.fr       */
+/*   Created: 2023/04/24 09:09:26 by llima             #+#    #+#             */
+/*   Updated: 2023/04/24 10:12:17 by llima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	*msh_calloc(size_t count, size_t size, char *context)
+int	msh_arr_srch(char **arr, char *str)
 {
-	void	*ptr;
+	int	i;
+	int	srch_len;
 
-	ptr = ft_calloc(count, size);
-	if (!ptr)
+	i = 0;
+	srch_len = ft_strlen(str);
+	if (arr && str)
 	{
-		errno = ENOMEM;
-		msh_perror(0, context, 0);
+		while (arr[i])
+		{
+			if (!ft_strncmp(arr[i], str, srch_len))
+			{
+				if (arr[i][srch_len] == '=')
+					return (i);
+			}
+			i++;
+		}
 	}
-	return (ptr);
+	return (-1);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_cmdhandle.c                                    :+:      :+:    :+:   */
+/*   msh_cmdutils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/23 12:48:04 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/23 12:48:40 by thfirmin         ###   ########.fr       */
+/*   Created: 2023/04/29 00:28:22 by thfirmin          #+#    #+#             */
+/*   Updated: 2023/04/29 00:32:52 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,24 @@ t_cmd	*msh_cmdnew(t_fd *in, t_fd *out, char **args)
 		arg->args = args;
 		arg->next = 0;
 	}
-	else
+	return (msh_check_alloc(arg, "cmdnew"));
+}
+
+void	msh_cmdclean(t_cmd **cmd)
+{
+	t_cmd	*nxt;
+
+	if (!cmd)
+		return ;
+	while (*cmd)
 	{
-		errno = ENOMEM;
-		msh_perror(0, "cmdnew", 0);
+		nxt = *cmd;
+		*cmd = (**cmd).next;
+		msh_fdclean(&nxt->fdin);
+		msh_fdclean(&nxt->fdout);
+		nxt->args = msh_splitclean(nxt->args);
+		free (nxt);
 	}
-	return (arg);
 }
 
 void	msh_cmdadd_back(t_cmd **cmd, t_cmd *arg)

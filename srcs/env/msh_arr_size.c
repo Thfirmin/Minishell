@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cs_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   msh_arr_size.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
+/*   By: llima <llima@student.42.rio>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/27 10:27:14 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/27 11:20:52 by thfirmin         ###   ########.fr       */
+/*   Created: 2023/04/23 19:50:05 by llima             #+#    #+#             */
+/*   Updated: 2023/04/24 08:14:51 by llima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cs50.h"
+#include "minishell.h"
 
-int	cs_putstr_fd(char *str, int fd)
+int	msh_arr_size(char **arr)
 {
-	int	len;
+	int	i;
 
-	len = 0;
-	if (str)
+	i = 0;
+	if (arr)
 	{
-		while (*(str + len))
-			len ++;
-		write (fd, str, len);
+		while (arr[i])
+			i++;
 	}
-	return (len);
+	return (i);
 }

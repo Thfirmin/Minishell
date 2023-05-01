@@ -1,24 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cs_strlen.c                                        :+:      :+:    :+:   */
+/*   msh_setsignal.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/27 10:39:04 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/27 10:39:49 by thfirmin         ###   ########.fr       */
+/*   Created: 2023/04/29 07:44:17 by thfirmin          #+#    #+#             */
+/*   Updated: 2023/04/29 19:08:21 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cs50.h"
+#include "minishell.h"
 
-int	cs_strlen(char *str)
+static void	msh_error_handler(int sig);
+
+void	msh_setsignal(void)
 {
-	int	len;
+	signal (SIGQUIT, SIG_IGN);
+	signal (SIGINT, msh_error_handler);
+}
 
-	len = 0;
-	if (str)
-		while (*(str + len))
-			len ++;
-	return (len);
+static void	msh_error_handler(int sig)
+{
+	if (sig == SIGINT)
+	{
+		g_rstatus = 130;
+		ioctl(STDIN_FILENO, TIOCSTI, "\n");
+		rl_replace_line("", 0);
+		rl_on_new_line();
+	}
 }

@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cs_get_char.c                                      :+:      :+:    :+:   */
+/*   msh_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
+/*   By: llima <llima@student.42.rio>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/27 10:24:04 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/27 10:27:01 by thfirmin         ###   ########.fr       */
+/*   Created: 2023/04/27 14:20:34 by llima             #+#    #+#             */
+/*   Updated: 2023/04/28 20:41:31 by llima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cs50.h"
+#include "minishell.h"
 
-char	cs_get_char(char *prompt)
+void	msh_env(char **args, t_env *env)
 {
-	char	c;
-	char	jnk;
+	int	i;
 
-	c = '\0';
-	jnk = '\0';
-	if (prompt)
-		cs_putstr_fd(prompt, 1);
-	read (0, &c, 1);
-	if (c)
-		while (jnk != '\n')
-			read (0, &jnk, 1);
-	return (c);
+	i = 0;
+	(void) args;
+	while (env->var_list[i])
+	{
+		ft_printf("%s\n", env->var_list[i]);
+		i++;
+	}
+	g_rstatus = 0;
 }

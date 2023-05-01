@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:30:49 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/27 17:13:56 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/28 16:05:23 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*msh_expnd_env(char **line, char **argv, char **envp)
 	char	*ret;
 
 	if (*(*line + 1) == '?')
-		ret = msh_getint(line, 0);
+		ret = msh_getint(line, g_rstatus);
 	else if (*(*line + 1) == '{')
 		ret = msh_getbracket(line, envp);
 	else if (ft_isdigit(*(*line + 1)))

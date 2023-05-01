@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cs_get_int.c                                       :+:      :+:    :+:   */
+/*   msh_allocutils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/27 10:43:10 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/27 11:15:08 by thfirmin         ###   ########.fr       */
+/*   Created: 2023/04/29 00:30:20 by thfirmin          #+#    #+#             */
+/*   Updated: 2023/04/29 00:31:16 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cs50.h"
+#include "minishell.h"
 
-int	cs_get_int(char *prompt)
+void	*msh_check_alloc(void *ptr, char *context)
 {
-	int	n;
-
-	if (prompt)
-		cs_putstr_fd(prompt, 1);
-	(void) n;
-	return (0);
+	if (!ptr)
+	{
+		errno = ENOMEM;
+		msh_perror(0, context, 0);
+	}
+	return (ptr);
 }

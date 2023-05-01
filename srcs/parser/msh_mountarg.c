@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_mountarg.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
+/*   By: tde-souz <tde-souz@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 08:51:41 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/27 19:32:16 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/29 13:39:58 by llima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,7 @@ t_cmd	*msh_mountarg(char *line, t_shell *sh)
 // Demanded error steps before returning
 static t_cmd	*msh_mountarg_error(t_fd *in, t_fd *out, char **split)
 {
-	int	i;
-
-	i = -1;
-	msh_splitclean(&split);
+	split = msh_splitclean(split);
 	msh_fdclean(in);
 	msh_fdclean(out);
 	return (0);
@@ -97,7 +94,7 @@ static char	**msh_prompt_args(char *line, t_shell *sh)
 	i = 0;
 	while (*(args + i))
 	{
-		expnd = msh_expansion(*(args + i), sh->argv, sh->envp);
+		expnd = msh_expansion(*(args + i), sh->argv, sh->env->var_list);
 		free (*(args + i));
 		if (!expnd)
 		{

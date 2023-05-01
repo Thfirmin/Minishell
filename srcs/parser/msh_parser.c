@@ -6,7 +6,7 @@
 /*   By: thfirmin <thfirmin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 07:04:41 by thfirmin          #+#    #+#             */
-/*   Updated: 2023/04/27 17:39:33 by thfirmin         ###   ########.fr       */
+/*   Updated: 2023/04/29 09:57:08 by thfirmin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ void	msh_parser(char *line, t_shell *sh)
 		if (!node)
 		{
 			msh_cmdclean(&sh->cmd);
-			msh_splitclean(&args);
+			args = msh_splitclean(args);
 			return ;
 		}
 		msh_cmdadd_back(&sh->cmd, node);
 	}
-	msh_splitclean(&args);
+	args = msh_splitclean(args);
 }
